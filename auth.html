@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация - SmartChoice AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1>🧠 SmartChoice AI</h1>
+                    <p>Войдите в систему или создайте аккаунт</p>
+                </div>
+
+                <!-- Вход -->
+                <div id="login-form" class="auth-form active">
+                    <h2>Вход в систему</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email:</label>
+                            <input type="email" id="login-email" class="form-control" placeholder="ваш@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Пароль:</label>
+                            <input type="password" id="login-password" class="form-control" placeholder="Введите пароль" required>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">
+                            <span class="btn-text">Войти</span>
+                            <span class="btn-loader hidden">Проверяем...</span>
+                        </button>
+                    </form>
+                    <p class="auth-switch">
+                        Нет аккаунта? <a href="#" onclick="switchToRegister()">Зарегистрироваться</a>
+                    </p>
+                </div>
+
+                <!-- Регистрация -->
+                <div id="register-form" class="auth-form">
+                    <h2>Создать аккаунт</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label class="form-label">Имя:</label>
+                            <input type="text" id="register-name" class="form-control" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email:</label>
+                            <input type="email" id="register-email" class="form-control" placeholder="ваш@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Пароль:</label>
+                            <input type="password" id="register-password" class="form-control" placeholder="Минимум 6 символов" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Возраст:</label>
+                            <input type="number" id="register-age" class="form-control" placeholder="25" min="18" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Тип личности:</label>
+                            <select id="register-personality" class="form-control">
+                                <option value="">Выберите тип</option>
+                                <option value="introvert">Интроверт</option>
+                                <option value="extrovert">Экстраверт</option>
+                                <option value="ambivert">Амбиверт</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Уровень тревожности: <span id="anxiety-display">5</span></label>
+                            <input type="range" id="register-anxiety" class="form-range" min="1" max="10" value="5">
+                            <div class="range-labels">
+                                <span>Низкий</span>
+                                <span>Высокий</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">
+                            <span class="btn-text">Создать аккаунт</span>
+                            <span class="btn-loader hidden">Создаём...</span>
+                        </button>
+                    </form>
+                    <p class="auth-switch">
+                        Уже есть аккаунт? <a href="#" onclick="switchToLogin()">Войти</a>
+                    </p>
+                </div>
+
+                <!-- Демо режим -->
+                <div class="demo-section">
+                    <div class="divider">
+                        <span>или</span>
+                    </div>
+                    <button class="btn btn--outline btn--full-width" onclick="demoMode()">
+                        🚀 Демо режим (без регистрации)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backend Status -->
+        <div class="backend-status">
+            <div class="status-indicator" id="backend-status">
+                <span class="status-dot"></span>
+                <span class="status-text">Проверяем подключение...</span>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="api-service.js"></script>
+    <script>
+        // Переключение между формами
+        function switchToRegister() {
+            document.getElementById('login-form').classList.remove('active');
+            document.getElementById('register-form').classList.add('active');
+        }
+
+        function switchToLogin() {
+            document.getElementById('register-form').classList.remove('active');
+            document.getElementById('login-form').classList.add('active');
+        }
+
+        // Обновление значения тревожности
+        document.getElementById('register-anxiety').addEventListener('input', (e) => {
+            document.getElementById('anxiety-display').textContent = e.target.value;
+        });
+
+        // Демо режим
+        function demoMode() {
+            localStorage.setItem('demoMode', 'true');
+            window.location.href = 'index.html';
+        }
+
+        // Обработка формы входа
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoader = btn.querySelector('.btn-loader');
+            
+            try {
+                // Показываем загрузку
+                btn.disabled = true;
+                btnText.style.opacity = '0';
+                btnLoader.classList.remove('hidden');
+                btnLoader.style.opacity = '1';
+
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                const result = await apiService.login(email, password);
+                
+                showToast('Успешный вход!', 'success');
+                
+                // Редирект через секунду
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+
+            } catch (error) {
+                showToast(`Ошибка входа: ${error.message}`, 'error');
+            } finally {
+                // Скрываем загрузку
+                btn.disabled = false;
+                btnText.style.opacity = '1';
+                btnLoader.style.opacity = '0';
+                setTimeout(() => btnLoader.classList.add('hidden'), 200);
+            }
+        });
+
+        // Обработка формы регистрации
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoader = btn.querySelector('.btn-loader');
+            
+            try {
+                // Показываем загрузку
+                btn.disabled = true;
+                btnText.style.opacity = '0';
+                btnLoader.classList.remove('hidden');
+                btnLoader.style.opacity = '1';
+
+                const userData = {
+                    name: document.getElementById('register-name').value,
+                    email: document.getElementById('register-email').value,
+                    password: document.getElementById('register-password').value,
+                    age: parseInt(document.getElementById('register-age').value) || null,
+                    personalityType: document.getElementById('register-personality').value || null,
+                    anxietyLevel: parseInt(document.getElementById('register-anxiety').value)
+                };
+
+                const result = await apiService.register(userData);
+                
+                showToast('Аккаунт создан! Добро пожаловать!', 'success');
+                
+                // Редирект через секунду
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+
+            } catch (error) {
+                showToast(`Ошибка регистрации: ${error.message}`, 'error');
+            } finally {
+                // Скрываем загрузку
+                btn.disabled = false;
+                btnText.style.opacity = '1';
+                btnLoader.style.opacity = '0';
+                setTimeout(() => btnLoader.classList.add('hidden'), 200);
+            }
+        });
+
+        // Toast уведомления
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast--${type}`;
+            toast.textContent = message;
+
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => container.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Проверка статуса backend
+        async function checkBackendStatus() {
+            const statusIndicator = document.getElementById('backend-status');
+            const statusDot = statusIndicator.querySelector('.status-dot');
+            const statusText = statusIndicator.querySelector('.status-text');
+
+            try {
+                const health = await apiService.healthCheck();
+                statusDot.style.background = 'var(--color-success)';
+                statusText.textContent = 'Backend подключен';
+                console.log('✅ Backend работает:', health);
+            } catch (error) {
+                statusDot.style.background = 'var(--color-error)';
+                statusText.textContent = 'Backend недоступен';
+                console.error('❌ Backend недоступен:', error);
+                showToast('Предупреждение: Backend недоступен. Используйте демо режим.', 'warning');
+            }
+        }
+
+        // Проверяем авторизацию при загрузке
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Проверяем статус backend
+            await checkBackendStatus();
+
+            // Если уже авторизован, редиректим
+            if (apiService.isAuthenticated()) {
+                try {
+                    await apiService.getProfile();
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    // Токен недействителен
+                    apiService.logout();
+                }
+            }
+        });
+    </script>
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-20);
+            background: linear-gradient(135deg, var(--color-bg-1), var(--color-bg-3));
+        }
+
+        .auth-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-32);
+            width: 100%;
+            max-width: 450px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-32);
+        }
+
+        .auth-header h1 {
+            color: var(--color-primary);
+            margin-bottom: var(--space-8);
+            font-size: var(--font-size-3xl);
+        }
+
+        .auth-header p {
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form h2 {
+            color: var(--color-text);
+            margin-bottom: var(--space-24);
+            text-align: center;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: var(--space-20);
+            color: var(--color-text-secondary);
+        }
+
+        .auth-switch a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .auth-switch a:hover {
+            color: var(--color-primary-hover);
+        }
+
+        .demo-section {
+            margin-top: var(--space-24);
+        }
+
+        .divider {
+            text-align: center;
+            margin: var(--space-20) 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--color-border);
+        }
+
+        .divider span {
+            background: var(--color-surface);
+            padding: 0 var(--space-16);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .backend-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-8) var(--space-12);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-warning);
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: var(--space-24);
+                margin: var(--space-16);
+            }
+        }
+    </style>
+</body>
+</html>

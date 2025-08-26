@@ -1,0 +1,101 @@
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 13:58:04:584"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 13:58:04:584"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 13:58:04:584"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: undefined\u001b[39m","timestamp":"2025-08-26 13:58:04:584"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 13:58:04:584"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 13:58:04:584"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 2ms\u001b[39m","timestamp":"2025-08-26 13:58:45:5845"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 13:58:55:5855"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 13:59:16:5916"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET /favicon.ico 404 - 2ms\u001b[39m","timestamp":"2025-08-26 13:59:16:5916"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mNew user registered: test@example.com\u001b[39m","timestamp":"2025-08-26 13:59:23:5923"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 0ms\u001b[39m","timestamp":"2025-08-26 13:59:32:5932"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 14:03:24:324"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 0ms\u001b[39m","timestamp":"2025-08-26 14:03:25:325"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 16ms\u001b[39m","timestamp":"2025-08-26 14:49:37:4937"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 14:49:38:4938"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 2ms\u001b[39m","timestamp":"2025-08-26 14:49:39:4939"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 14:50:52:5052"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 0ms\u001b[39m","timestamp":"2025-08-26 14:50:52:5052"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 0ms\u001b[39m","timestamp":"2025-08-26 14:50:54:5054"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 14:51:00:510"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 2ms\u001b[39m","timestamp":"2025-08-26 15:09:43:943"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 2ms\u001b[39m","timestamp":"2025-08-26 15:09:47:947"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 5ms\u001b[39m","timestamp":"2025-08-26 15:29:21:2921"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 4ms\u001b[39m","timestamp":"2025-08-26 15:29:46:2946"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 7ms\u001b[39m","timestamp":"2025-08-26 15:29:47:2947"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mSIGINT received\u001b[39m","timestamp":"2025-08-26 15:53:31:5331"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: development\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mQuery: SELECT 1\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mParams: []\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mDuration: 0ms\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 16:03:16:316"}
+{"level":"\u001b[35mhttp\u001b[39m","message":"\u001b[35mGET /health 200 - 6ms\u001b[39m","timestamp":"2025-08-26 16:03:17:317"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 16:15:09:159"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: development\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[35mhttp\u001b[39m","message":"\u001b[35mGET /health 200 - 18ms\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mQuery: SELECT 1\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mParams: []\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mDuration: 2ms\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 16:15:10:1510"}
+{"level":"\u001b[35mhttp\u001b[39m","message":"\u001b[35mGET /health 200 - 1ms\u001b[39m","timestamp":"2025-08-26 16:15:21:1521"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: development\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mQuery: SELECT 1\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mParams: []\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mDuration: 2ms\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 16:34:29:3429"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 21ms\u001b[39m","timestamp":"2025-08-26 16:35:20:3520"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET / 404 - 1ms\u001b[39m","timestamp":"2025-08-26 16:35:21:3521"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: development\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mQuery: SELECT 1\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mParams: []\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mDuration: 0ms\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[35mhttp\u001b[39m","message":"\u001b[35mGET /health 200 - 6ms\u001b[39m","timestamp":"2025-08-26 16:40:31:4031"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: development\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mQuery: SELECT 1\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mParams: []\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mDuration: 2ms\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 16:57:27:5727"}
+{"level":"\u001b[35mhttp\u001b[39m","message":"\u001b[35mGET /health 200 - 145ms\u001b[39m","timestamp":"2025-08-26 16:58:24:5824"}
+{"level":"\u001b[31merror\u001b[39m","message":"\u001b[31mGET /favicon.ico 404 - 1ms\u001b[39m","timestamp":"2025-08-26 16:58:24:5824"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001/health\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: development\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mQuery: SELECT 1\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mParams: []\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"\u001b[37mDuration: 0ms\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 17:03:20:320"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 17:08:33:833"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001 \u001b[39m","timestamp":"2025-08-26 17:08:33:833"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001 /health\u001b[39m","timestamp":"2025-08-26 17:08:33:833"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: undefined\u001b[39m","timestamp":"2025-08-26 17:08:33:833"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 17:08:33:833"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 17:08:33:833"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mGoogle OAuth не настроен - пропускаем\u001b[39m","timestamp":"2025-08-26 17:09:49:949"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🚀 Decision Helper API Server running on port 3001 \u001b[39m","timestamp":"2025-08-26 17:09:49:949"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m📊 Health check: http://localhost:3001 /health\u001b[39m","timestamp":"2025-08-26 17:09:49:949"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🌍 Environment: undefined\u001b[39m","timestamp":"2025-08-26 17:09:49:949"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Connected to PostgreSQL database\u001b[39m","timestamp":"2025-08-26 17:09:49:949"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m✅ Database connection test successful\u001b[39m","timestamp":"2025-08-26 17:09:49:949"}

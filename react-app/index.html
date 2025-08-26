@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO and Meta -->
+    <title>SmartChoice AI - Помощник Принятия Решений</title>
+    <meta name="description" content="AI-powered decision making assistant with emotion analysis, AHP, TOPSIS algorithms" />
+    <meta name="keywords" content="decision making, AI, machine learning, AHP, TOPSIS, emotion analysis" />
+    <meta name="author" content="SmartChoice AI Team" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="SmartChoice AI - Помощник Принятия Решений" />
+    <meta property="og:description" content="Принимайте решения с искусственным интеллектом" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    
+    <!-- PWA Meta -->
+    <meta name="theme-color" content="#20808d" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS for fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Prevent FOUC -->
+    <style>
+      body {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      body.loaded {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      /* Loading screen */
+      #initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fcfcf9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      
+      #initial-loader .loader-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      
+      #initial-loader .loader-text {
+        color: #626c71;
+        font-size: 0.9rem;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Initial loading screen -->
+    <div id="initial-loader">
+      <div class="loader-icon">🧠</div>
+      <div class="loader-text">Загружаем SmartChoice AI...</div>
+    </div>
+    
+    <!-- React root -->
+    <div id="root"></div>
+    
+    <!-- Remove loading screen when React takes over -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loader = document.getElementById('initial-loader');
+          if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(function() {
+              loader.remove();
+              document.body.classList.add('loaded');
+            }, 300);
+          }
+        }, 500);
+      });
+      
+      // Handle errors gracefully
+      window.addEventListener('error', function(e) {
+        console.error('Application error:', e);
+        const loader = document.getElementById('initial-loader');
+        if (loader) {
+          loader.innerHTML = `
+            <div style="text-align: center;">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+              <div style="color: #d32f2f; margin-bottom: 0.5rem;">Ошибка загрузки</div>
+              <div style="color: #626c71; font-size: 0.8rem;">Попробуйте обновить страницу</div>
+            </div>
+          `;
+        }
+      });
+    </script>
+    
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

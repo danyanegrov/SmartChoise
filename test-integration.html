@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест интеграции - SmartChoice AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="container">
+            <h1>🧪 Тест интеграции Backend + Frontend</h1>
+            
+            <div class="test-section">
+                <h2>1. Статус подключения</h2>
+                <div id="connection-status" class="status">Проверяем...</div>
+                <button onclick="testConnection()" class="btn btn--secondary">Проверить подключение</button>
+            </div>
+
+            <div class="test-section">
+                <h2>2. Тест регистрации</h2>
+                <div class="form-group">
+                    <input type="text" id="test-name" class="form-control" placeholder="Имя" value="Тестовый Пользователь">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="test-email" class="form-control" placeholder="Email" value="test@example.com">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="test-password" class="form-control" placeholder="Пароль" value="password123">
+                </div>
+                <button onclick="testRegister()" class="btn btn--primary">Тест регистрации</button>
+                <div id="register-result" class="test-result"></div>
+            </div>
+
+            <div class="test-section">
+                <h2>3. Тест принятия решения</h2>
+                <div class="form-group">
+                    <input type="text" id="test-question" class="form-control" placeholder="Вопрос" value="Что выбрать на ужин?">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="test-option1" class="form-control" placeholder="Вариант 1" value="Пицца">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="test-option2" class="form-control" placeholder="Вариант 2" value="Суши">
+                </div>
+                <button onclick="testDecision()" class="btn btn--primary">Тест решения</button>
+                <div id="decision-result" class="test-result"></div>
+            </div>
+
+            <div class="test-section">
+                <h2>4. Тест истории</h2>
+                <button onclick="testHistory()" class="btn btn--primary">Загрузить историю</button>
+                <div id="history-result" class="test-result"></div>
+            </div>
+
+            <div class="test-section">
+                <h2>🚀 Запуск основного приложения</h2>
+                <p>Если все тесты прошли успешно:</p>
+                <a href="auth.html" class="btn btn--primary">Перейти к авторизации</a>
+                <a href="index.html" class="btn btn--outline">Прямо к приложению</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="api-service.js"></script>
+    <script>
+        async function testConnection() {
+            const statusDiv = document.getElementById('connection-status');
+            statusDiv.className = 'status';
+            statusDiv.textContent = 'Проверяем подключение...';
+
+            try {
+                const health = await apiService.healthCheck();
+                statusDiv.className = 'status status--success';
+                statusDiv.textContent = `✅ Backend подключен: ${health.status}`;
+                console.log('Health check:', health);
+            } catch (error) {
+                statusDiv.className = 'status status--error';
+                statusDiv.textContent = `❌ Backend недоступен: ${error.message}`;
+                console.error('Connection test failed:', error);
+            }
+        }
+
+        async function testRegister() {
+            const resultDiv = document.getElementById('register-result');
+            resultDiv.textContent = 'Тестируем регистрацию...';
+
+            try {
+                const testData = {
+                    name: document.getElementById('test-name').value,
+                    email: document.getElementById('test-email').value + Date.now(), // Уникальный email
+                    password: document.getElementById('test-password').value,
+                    age: 25,
+                    personalityType: 'introvert',
+                    anxietyLevel: 5
+                };
+
+                const result = await apiService.register(testData);
+                resultDiv.innerHTML = `
+                    <div class="status status--success">
+                        ✅ Регистрация успешна!<br>
+                        Пользователь: ${result.user.name}<br>
+                        ID: ${result.user.id}<br>
+                        Токен получен: ${result.token ? 'Да' : 'Нет'}
+                    </div>
+                `;
+                console.log('Registration test:', result);
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status status--error">
+                        ❌ Ошибка регистрации: ${error.message}
+                    </div>
+                `;
+                console.error('Registration test failed:', error);
+            }
+        }
+
+        async function testDecision() {
+            const resultDiv = document.getElementById('decision-result');
+            resultDiv.textContent = 'Тестируем принятие решения...';
+
+            try {
+                if (!apiService.isAuthenticated()) {
+                    throw new Error('Сначала нужно зарегистрироваться');
+                }
+
+                const decisionData = {
+                    question: document.getElementById('test-question').value,
+                    options: [
+                        { text: document.getElementById('test-option1').value, rating: 4 },
+                        { text: document.getElementById('test-option2').value, rating: 3 }
+                    ],
+                    emotion: { emotion: 'neutral', confidence: 0.7 }
+                };
+
+                const result = await apiService.createSimpleDecision(decisionData);
+                resultDiv.innerHTML = `
+                    <div class="status status--success">
+                        ✅ Решение создано!<br>
+                        ID: ${result.id}<br>
+                        Выбор: ${result.chosenOption || 'Не указан'}<br>
+                        Рекомендация ИИ: ${result.aiRecommendation ? 'Есть' : 'Нет'}
+                    </div>
+                `;
+                console.log('Decision test:', result);
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status status--error">
+                        ❌ Ошибка решения: ${error.message}
+                    </div>
+                `;
+                console.error('Decision test failed:', error);
+            }
+        }
+
+        async function testHistory() {
+            const resultDiv = document.getElementById('history-result');
+            resultDiv.textContent = 'Загружаем историю...';
+
+            try {
+                if (!apiService.isAuthenticated()) {
+                    throw new Error('Сначала нужно зарегистрироваться');
+                }
+
+                const result = await apiService.getDecisionHistory();
+                resultDiv.innerHTML = `
+                    <div class="status status--success">
+                        ✅ История загружена!<br>
+                        Количество решений: ${result.decisions ? result.decisions.length : 0}<br>
+                        ${result.decisions && result.decisions.length > 0 ? 
+                          `Последнее: ${result.decisions[0].title}` : 
+                          'Решений пока нет'
+                        }
+                    </div>
+                `;
+                console.log('History test:', result);
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="status status--error">
+                        ❌ Ошибка истории: ${error.message}
+                    </div>
+                `;
+                console.error('History test failed:', error);
+            }
+        }
+
+        // Автоматический тест подключения при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            testConnection();
+        });
+    </script>
+
+    <style>
+        .test-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-base);
+            padding: var(--space-20);
+            margin-bottom: var(--space-24);
+        }
+
+        .test-section h2 {
+            color: var(--color-text);
+            margin-bottom: var(--space-16);
+            padding-bottom: var(--space-8);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .test-result {
+            margin-top: var(--space-16);
+            padding: var(--space-12);
+            border-radius: var(--radius-base);
+            min-height: 60px;
+        }
+
+        .test-result:empty {
+            display: none;
+        }
+
+        .status {
+            padding: var(--space-12);
+            border-radius: var(--radius-base);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .status--success {
+            background: rgba(var(--color-success-rgb), 0.1);
+            color: var(--color-success);
+            border: 1px solid rgba(var(--color-success-rgb), 0.3);
+        }
+
+        .status--error {
+            background: rgba(var(--color-error-rgb), 0.1);
+            color: var(--color-error);
+            border: 1px solid rgba(var(--color-error-rgb), 0.3);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-12);
+        }
+
+        .btn {
+            margin-right: var(--space-12);
+            margin-bottom: var(--space-8);
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Component,Path,Props,State,Dependencies,Description
+LoginForm,src/components/auth/LoginForm.jsx,"onSubmit, loading, error","email, password, isValid","useState, axios, useNavigate",Форма входа пользователя
+SimpleDecision,src/components/decisions/SimpleDecision.jsx,"onDecisionMade, user","title, options, ratings, isLoading","useState, useEffect, DecisionAPI",Интерфейс простого решения
+ComplexDecision,src/components/decisions/ComplexDecision.jsx,"onDecisionMade, maxCriteria","criteria, options, weights, matrix","useState, useCallback, MCDA algorithms",Матрица многокритериального решения
+EmotionAnalyzer,src/components/ai/EmotionAnalyzer.jsx,"text, onEmotionDetected","emotion, confidence, isAnalyzing","useState, useEffect, ML API",Компонент анализа эмоций
+DecisionWheel,src/components/decisions/DecisionWheel.jsx,"options, onSpinComplete, disabled","isSpinning, result, rotation","useState, useRef, CSS animations",Анимированное колесо выбора

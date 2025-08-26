@@ -1,0 +1,64 @@
+{
+  "algorithms": {
+    "ahp": {
+      "name": "Analytic Hierarchy Process",
+      "description": "Метод анализа иерархий для сложных многокритериальных решений",
+      "use_case": "Сложные решения с несколькими критериями",
+      "accuracy": 0.85
+    },
+    "topsis": {
+      "name": "TOPSIS",
+      "description": "Technique for Order of Preference by Similarity to Ideal Solution",
+      "use_case": "Ранжирование альтернатив по близости к идеальному решению",
+      "accuracy": 0.82
+    },
+    "emotion_aware": {
+      "name": "Emotion-Aware Decision Making",
+      "description": "Алгоритм с учетом эмоционального состояния пользователя",
+      "use_case": "Решения в стрессовых ситуациях",
+      "accuracy": 0.78
+    },
+    "contextual_bandit": {
+      "name": "Contextual Multi-Armed Bandit",
+      "description": "Адаптивные рекомендации на основе контекста",
+      "use_case": "Персонализированные рекомендации",
+      "accuracy": 0.8
+    }
+  },
+  "test_results": {
+    "ahp_weights": [
+      0.2970954131831494,
+      0.5399838018244787,
+      0.16292078499237186
+    ],
+    "topsis_scores": [
+      0.28819305157049957,
+      0.9187776878061991,
+      0.2545401536543194
+    ],
+    "emotion_detection": {
+      "emotion": "anxiety",
+      "confidence": 0.4
+    },
+    "bandit_recommendations": [
+      {
+        "option": "Вариант А",
+        "score": 14.049199265438583,
+        "confidence": 14.049199265438583,
+        "expected_reward": 0.0
+      },
+      {
+        "option": "Вариант Б",
+        "score": 14.049199265438583,
+        "confidence": 14.049199265438583,
+        "expected_reward": 0.0
+      },
+      {
+        "option": "Вариант В",
+        "score": 14.049199265438583,
+        "confidence": 14.049199265438583,
+        "expected_reward": 0.0
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+Method,Endpoint,Description,Request_Body,Response,Status_Codes
+POST,/api/auth/register,Регистрация нового пользователя,"{""email"": ""user@example.com"", ""password"": ""password123"", ""name"": ""John Doe"", ""age"": 25}","{""success"": true, ""token"": ""jwt_token"", ""user"": {...}}","201 Created, 400 Bad Request, 409 Conflict"
+POST,/api/decisions/simple,Создание простого решения,"{""title"": ""Выбор ресторана"", ""options"": [""Pizza"", ""Sushi""], ""ratings"": [4, 5]}","{""recommendation"": ""Sushi"", ""confidence"": 0.85, ""reasoning"": ""...""}","200 OK, 400 Bad Request, 401 Unauthorized"
+POST,/api/decisions/complex,Создание сложного решения с критериями,"{""title"": ""Выбор работы"", ""criteria"": [...], ""options"": [...], ""weights"": [...]}","{""ranking"": [...], ""scores"": {...}, ""recommendation"": ""...""}","200 OK, 400 Bad Request, 401 Unauthorized"
+POST,/api/ml/emotion-decision,AI анализ с учетом эмоций,"{""text"": ""Не знаю что выбрать, очень переживаю"", ""options"": [...]}","{""emotion"": ""anxiety"", ""adjusted_weights"": [...], ""recommendation"": ""...""}","200 OK, 500 Internal Server Error"
+GET,/api/decisions/history,Получение истории решений,N/A,"{""decisions"": [...], ""total"": 25, ""page"": 1}","200 OK, 401 Unauthorized"

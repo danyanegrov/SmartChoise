@@ -1,0 +1,4 @@
+Model,Type,Input,Output,Library,Model_Name,API_Endpoint,Performance
+Emotion Detection,Text Classification,User text description,Emotion label + confidence,Hugging Face Transformers,j-hartmann/emotion-english,/api/ml/analyze-emotion,85%+ accuracy
+Contextual Bandit,Reinforcement Learning,User context + decision options,Ranked recommendations,Custom PyTorch implementation,contextual_neural_bandit_v1,/api/ml/contextual-recommendation,Thompson Sampling with NN
+Decision Tree with Emotion,Enhanced Classification,Options + criteria + emotion state,Decision recommendation + explanation,Scikit-learn + custom preprocessing,emotion_aware_dt_v1,/api/ml/emotion-decision,Custom evaluation metrics

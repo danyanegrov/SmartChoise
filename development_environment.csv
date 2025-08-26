@@ -1,0 +1,6 @@
+Component,Version,Purpose,Installation,Config
+Node.js,18.17.0+,Backend runtime,nvm install 18 && nvm use 18,"package.json, .nvmrc"
+React,18.2.0+,Frontend framework,npx create-react-app decision-helper --template typescript,"tsconfig.json, vite.config.ts"
+PostgreSQL,14+,Primary database,Docker: postgres:14-alpine,"docker-compose.yml, .env"
+Redis,6+,Caching and sessions,Docker: redis:6-alpine,redis.conf
+Python,3.9+,ML service,pyenv install 3.9.16,"requirements.txt, Dockerfile"

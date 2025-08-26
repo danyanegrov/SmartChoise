@@ -1,0 +1,5 @@
+Table,Columns,Indexes,Relations,Constraints
+users,"id (UUID), email (VARCHAR), password_hash (VARCHAR), name (VARCHAR), age (INT), personality_type (VARCHAR), anxiety_level (INT), created_at (TIMESTAMP)","email (UNIQUE), created_at",1:N with decisions,anxiety_level CHECK (1-10)
+decisions,"id (UUID), user_id (UUID FK), decision_type (ENUM), title (VARCHAR), description (TEXT), chosen_option (TEXT), confidence_score (DECIMAL), context_data (JSONB)","user_id, decision_type, created_at","N:1 with users, 1:N with decision_options","decision_type IN ('simple', 'complex', 'random')"
+decision_options,"id (UUID), decision_id (UUID FK), option_text (TEXT), user_rating (INT), ai_score (DECIMAL), criteria_scores (JSONB)","decision_id, ai_score",N:1 with decisions,user_rating CHECK (1-5)
+user_behavior,"id (UUID), user_id (UUID FK), session_id (VARCHAR), action_type (VARCHAR), time_spent (INT), hesitation_time (INT), created_at (TIMESTAMP)","user_id, session_id, created_at",N:1 with users,time_spent > 0
