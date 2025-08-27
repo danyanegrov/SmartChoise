@@ -10,6 +10,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "NODE_ENV=development node index.js",
+    "postinstall": "prisma generate",
+    "build": "prisma generate",
     "local-start": "\"C:\\Program Files\\nodejs\\node.exe\" src/server.js",
     "local-dev": "\"C:\\Program Files\\nodejs\\npx.exe\" nodemon src/server.js",
     "test": "jest",

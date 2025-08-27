@@ -1,0 +1,76 @@
+# Railway-optimized .gitignore
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (Railway will set these)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Railway
+.railway/
+
+# Local testing
+test-results/
+
+# Batch files (Windows specific)
+*.bat
+
+# External databases (not needed for Railway)
+chinook-database-master/
+northwind-SQLite3-main/
+prisma/
+
+# React app (separate deployment)
+react-app/
+
+# ML service (separate if needed)
+ml-service/
+
+# Documentation (keep essential ones)
+FINAL_*.md
+QUICK_START*.md
+RAILWAY_*.md
+DATABASE_INTEGRATION_*.md
+
+# Keep data directory for CSV database
+!data/
+data/*.backup
+data/*.bak
+
+# Keep essential files
+!README.md
+!package.json
+!index.js
+!railway.json
+!src/
+!data/
