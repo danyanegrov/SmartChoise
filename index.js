@@ -26,14 +26,23 @@ console.log('🔌 Server will listen on port:', PORT);
 console.log('🌍 Environment:', process.env.NODE_ENV || 'production');
 console.log('🛤️ Railway Environment:', process.env.RAILWAY_ENVIRONMENT || 'false');
 
-// CORS configuration for Railway
+// CORS configuration for Railway - Fixed for wildcard domains
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'https://*.up.railway.app',
-    'https://*.railway.app'
-  ],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow localhost for development
+    if (origin.includes('localhost')) return callback(null, true);
+    
+    // Allow Railway domains with wildcard support
+    if (origin.includes('.railway.app') || origin.includes('.up.railway.app')) {
+      return callback(null, true);
+    }
+    
+    // Reject other origins
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -56,9 +65,11 @@ app.use((req, res, next) => {
 // CSV Database Service
 class CSVDatabaseService {
   constructor() {
-    this.dataPath = path.join(__dirname, 'data');
+    // Fixed path resolution for Railway deployment
+    this.dataPath = path.join(process.cwd(), 'data');
     this.cache = new Map();
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
+    console.log('📁 CSV Database path:', this.dataPath);
   }
 
   // Load CSV file with caching
@@ -72,6 +83,14 @@ class CSVDatabaseService {
 
     try {
       const filePath = path.join(this.dataPath, filename);
+      console.log(`📖 Loading CSV file: ${filePath}`);
+      
+      // Check if file exists first
+      if (!fs.existsSync(filePath)) {
+        console.error(`❌ CSV file not found: ${filePath}`);
+        return [];
+      }
+      
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const lines = fileContent.split('\n').filter(line => line.trim());
       
@@ -192,6 +211,27 @@ class CSVDatabaseService {
 
 // Initialize database service
 const dbService = new CSVDatabaseService();
+
+// Validate CSV files on startup
+console.log('🔍 Validating CSV database on startup...');
+try {
+  const dataDir = path.join(process.cwd(), 'data');
+  console.log('📁 Data directory:', dataDir);
+  
+  if (fs.existsSync(dataDir)) {
+    const files = fs.readdirSync(dataDir);
+    const csvFiles = files.filter(file => file.endsWith('.csv'));
+    console.log(`✅ Found ${csvFiles.length} CSV files:`, csvFiles);
+    
+    if (csvFiles.length === 0) {
+      console.warn('⚠️ No CSV files found in data directory');
+    }
+  } else {
+    console.error('❌ Data directory not found:', dataDir);
+  }
+} catch (error) {
+  console.error('❌ Error validating CSV database:', error.message);
+}
 
 // Health check endpoint - Railway needs this
 app.get('/health', (req, res) => {
