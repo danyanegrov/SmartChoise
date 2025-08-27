@@ -9,6 +9,7 @@
     "healthcheckPath": "/health",
     "healthcheckTimeout": 120,
     "restartPolicy": "always",
-    "numReplicas": 1
+    "numReplicas": 1,
+    "healthcheckInterval": 30
   }
 }

@@ -106,3 +106,4 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🗄️ Database: CSV files (7 datasets)\u001b[39m","timestamp":"2025-08-27 13:35:37:3537"}
 {"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32m🤖 AI: Perplexity integrated\u001b[39m","timestamp":"2025-08-27 13:35:37:3537"}
 {"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mLoaded CSV data from database_statistics.json: 8 records\u001b[39m","timestamp":"2025-08-27 13:36:40:3640"}
+{"level":"\u001b[32minfo\u001b[39m","message":"\u001b[32mLoaded CSV data from database_statistics.json: 8 records\u001b[39m","timestamp":"2025-08-27 14:21:49:2149"}

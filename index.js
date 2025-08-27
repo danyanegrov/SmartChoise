@@ -27,6 +27,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 console.log('🔌 Server will listen on port:', PORT);
+console.log('🌍 Environment:', process.env.NODE_ENV || 'production');
+console.log('🛤️ Railway Environment:', process.env.RAILWAY_ENVIRONMENT || 'false');
+console.log('🏠 Railway Domain:', process.env.RAILWAY_PUBLIC_DOMAIN || 'not set');
 
 // Basic middleware first (no complex features)
 console.log('🔧 Setting up basic middleware...');
@@ -45,6 +48,8 @@ app.get('/health', (req, res) => {
     port: PORT,
     environment: process.env.NODE_ENV || 'production',
     platform: 'Railway',
+    railway_env: process.env.RAILWAY_ENVIRONMENT || false,
+    railway_domain: process.env.RAILWAY_PUBLIC_DOMAIN || null,
     message: 'SmartChoice AI is running!',
     uptime: process.uptime(),
     memory: process.memoryUsage()
@@ -61,6 +66,7 @@ app.get('/', (req, res) => {
     status: 'running',
     port: PORT,
     platform: 'Railway',
+    railway_env: process.env.RAILWAY_ENVIRONMENT || false,
     endpoints: ['/health', '/'],
     message: 'Railway debug version is working!',
     timestamp: new Date().toISOString()
@@ -90,9 +96,11 @@ app.use((err, req, res, next) => {
 });
 console.log('✅ Error handling configured');
 
-// Start server - Railway specific
+// Start server - Railway specific with better error handling
 console.log('🚀 Starting server...');
-app.listen(PORT, '0.0.0.0', () => {
+
+// Create server with error handling
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log('🎉 ========================================');
   console.log('🎉 SmartChoice AI Server STARTED SUCCESSFULLY!');
   console.log('🎉 ========================================');
@@ -105,25 +113,51 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log('🎉 ========================================');
 });
 
+// Handle server errors
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`💥 Port ${PORT} is already in use. Trying next available port...`);
+    // Try next port
+    const newPort = PORT + 1;
+    console.log(`🔄 Attempting to use port ${newPort}...`);
+    server.listen(newPort, '0.0.0.0');
+  } else {
+    console.error('💥 Server error:', err);
+    process.exit(1);
+  }
+});
+
 // Handle process events
 process.on('SIGTERM', () => {
   console.log('🔄 SIGTERM received - shutting down gracefully');
-  process.exit(0);
+  server.close(() => {
+    console.log('✅ Server closed');
+    process.exit(0);
+  });
 });
 
 process.on('SIGINT', () => {
   console.log('🔄 SIGINT received - shutting down gracefully');
-  process.exit(0);
+  server.close(() => {
+    console.log('✅ Server closed');
+    process.exit(0);
+  });
 });
 
 process.on('uncaughtException', (err) => {
   console.error('💥 Uncaught Exception:', err);
-  process.exit(1);
+  server.close(() => {
+    console.log('✅ Server closed due to uncaught exception');
+    process.exit(1);
+  });
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('💥 Unhandled Rejection at:', promise, 'reason:', reason);
-  process.exit(1);
+  server.close(() => {
+    console.log('✅ Server closed due to unhandled rejection');
+    process.exit(1);
+  });
 });
 
 console.log('🔧 Process event handlers configured');
