@@ -1,5 +1,5 @@
-// SmartChoice AI - Perfect Railway Version
-// Complete standalone version for Railway deployment
+// SmartChoice AI - Railway Entry Point (Simple Mode - CSV Only)
+// This version runs without Prisma for Railway deployment
 
 import express from 'express';
 import cors from 'cors';
@@ -7,7 +7,12 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 
-// Import only working routes for Railway
+// Import routes
+import authRoutes from './src/routes/auth.js';
+import decisionsRoutes from './src/routes/decisions.js';
+import mlRoutes from './src/routes/ml.js';
+import analyticsRoutes from './src/routes/analytics.js';
+import userRoutes from './src/routes/users.js';
 import databaseRoutes from './src/routes/database.js';
 import perplexityRoutes from './src/routes/perplexity.js';
 
@@ -84,92 +89,27 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     memory: process.memoryUsage(),
-    environment: process.env.NODE_ENV || 'production',
-    mode: 'Railway-optimized',
-    database: 'CSV files (7 datasets)',
-    ai: 'Perplexity AI integrated',
-    version: '1.0.0'
+    environment: process.env.NODE_ENV || 'development',
+    mode: 'CSV-only (no Prisma)',
+    database: 'CSV files'
   });
 });
 
-// Root endpoint
-app.get('/', (req, res) => {
-  res.json({
-    name: 'SmartChoice AI',
-    version: '1.0.0',
-    description: 'AI-powered decision helper with CSV database and Perplexity AI',
-    endpoints: {
-      health: '/health',
-      database: '/api/database/*',
-      perplexity: '/api/perplexity/*'
-    },
-    features: [
-      'CSV Database (7 datasets)',
-      'Perplexity AI integration',
-      'Decision algorithms',
-      'Real-time analytics'
-    ]
-  });
-});
-
-// API Routes - only working ones for Railway
+// API Routes (without auth middleware for CSV-only mode)
+app.use('/api/auth', authRoutes);
+app.use('/api/decisions', decisionsRoutes);
+app.use('/api/ml', mlRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/database', databaseRoutes);
 app.use('/api/perplexity', perplexityRoutes);
-
-// Simple auth endpoints for Railway
-app.post('/api/auth/demo', (req, res) => {
-  res.json({
-    success: true,
-    token: 'demo-token',
-    user: { id: 'demo', email: 'demo@smartchoice.ai', role: 'user' },
-    message: 'Demo mode activated'
-  });
-});
-
-// Simple decisions endpoint for Railway
-app.post('/api/decisions/analyze', (req, res) => {
-  const { title, description, options } = req.body;
-  
-  if (!title || !options) {
-    return res.status(400).json({
-      success: false,
-      error: 'Title and options are required'
-    });
-  }
-
-  // Simple decision analysis using CSV data
-  res.json({
-    success: true,
-    analysis: {
-      title,
-      description,
-      options,
-      recommendation: options[0], // Simple: recommend first option
-      confidence: 0.85,
-      factors: [
-        'Based on CSV database analysis',
-        'Historical decision patterns',
-        'Perplexity AI insights available'
-      ],
-      created_at: new Date().toISOString()
-    }
-  });
-});
 
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({
     error: 'Not Found',
     message: `Route ${req.originalUrl} not found`,
-    timestamp: new Date().toISOString(),
-    availableRoutes: [
-      'GET /',
-      'GET /health',
-      'GET /api/database/*',
-      'GET /api/perplexity/*',
-      'POST /api/auth/demo',
-      'POST /api/decisions/analyze'
-    ]
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -194,14 +134,14 @@ app.listen(PORT, '0.0.0.0', () => {
   
   logger.info(`🚀 SmartChoice AI Server running on port ${PORT}`);
   logger.info(`📊 Health check: ${baseUrl}/health`);
-  logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'production'}`);
+  logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   logger.info(`🛤️ Platform: ${isRailway ? 'Railway' : 'Local'}`);
-  logger.info(`🗄️ Database: CSV files (7 datasets)`);
-  logger.info(`🤖 AI: Perplexity integrated`);
+  logger.info(`🗄️ Database Mode: CSV-only (no Prisma)`);
   
   if (isRailway) {
     logger.info(`🌐 Public URL: ${baseUrl}`);
-    logger.info(`✅ Railway deployment successful`);
+    logger.info(`🗄️ Database: CSV files loaded`);
+    logger.info(`🤖 Perplexity AI: Integrated`);
   }
 });
 

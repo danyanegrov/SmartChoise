@@ -10,7 +10,7 @@ class PerplexityService {
         }
     }
 
-    async query(query, model = 'llama-3.1-sonar-small-128k-online') {
+    async query(query, model = 'llama-3.1-sonar-large-128k-online') {
         try {
             const response = await axios.post(`${this.baseURL}/chat/completions`, {
                 model: model,
