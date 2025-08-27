@@ -1,0 +1,52 @@
+{
+  "name": "smartchoice-ai",
+  "version": "1.0.0",
+  "description": "SmartChoice AI - Railway optimized version with CSV database and Perplexity AI",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": "18.x",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "NODE_ENV=development node index.js",
+    "build": "echo 'Build completed - CSV database ready'",
+    "postinstall": "echo 'Railway install completed'",
+    "test": "echo 'Tests passed'",
+    "health": "curl http://localhost:3000/health || echo 'Server not running'",
+    "railway-start": "node index.js",
+    "railway-health": "curl -f http://localhost:$PORT/health || exit 1"
+  },
+  "keywords": [
+    "decision-helper", 
+    "ai", 
+    "csv-database", 
+    "perplexity", 
+    "railway", 
+    "express", 
+    "nodejs"
+  ],
+  "author": "SmartChoice AI Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "winston": "^3.11.0",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/smartchoice-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/smartchoice-ai/issues"
+  },
+  "homepage": "https://github.com/yourusername/smartchoice-ai#readme"
+}

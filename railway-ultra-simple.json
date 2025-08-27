@@ -5,10 +5,8 @@
   },
   "deploy": {
     "startCommand": "npm start",
-    "buildCommand": "npm install",
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 120,
-    "restartPolicy": "always",
-    "numReplicas": 1
+    "healthcheckTimeout": 30,
+    "restartPolicy": "always"
   }
 }
