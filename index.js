@@ -33,15 +33,88 @@ console.log('🏠 Railway Domain:', process.env.RAILWAY_PUBLIC_DOMAIN || 'not se
 
 // Basic middleware first (no complex features)
 console.log('🔧 Setting up basic middleware...');
-app.use(cors());
+
+// CORS configuration optimized for Railway HTTPS
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow Railway deployment URLs (HTTPS)
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'https://localhost:3000',
+      'https://localhost:3001',
+      /^https:\/\/.*\.railway\.app$/,
+      /^https:\/\/.*\.railway\.com$/,
+      /^https:\/\/.*\.railway\.dev$/
+    ];
+    
+    // Add custom frontend URL if set
+    if (process.env.FRONTEND_URL) {
+      allowedOrigins.push(process.env.FRONTEND_URL);
+    }
+    
+    // Add Railway public domain if available
+    if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+      allowedOrigins.push(`https://${process.env.RAILWAY_PUBLIC_DOMAIN}`);
+    }
+    
+    // Allow requests with no origin (mobile apps, etc.)
+    if (!origin) return callback(null, true);
+    
+    // Check if origin is allowed
+    if (allowedOrigins.some(allowed => {
+      if (typeof allowed === 'string') return allowed === origin;
+      if (allowed instanceof RegExp) return allowed.test(origin);
+      return false;
+    })) {
+      callback(null, true);
+    } else {
+      console.log('🚫 CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Security headers for HTTPS/Railway
+app.use((req, res, next) => {
+  // Trust Railway proxy
+  if (process.env.RAILWAY_ENVIRONMENT) {
+    req.headers['x-forwarded-proto'] = 'https';
+  }
+  
+  // Security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // HTTPS specific headers
+  if (req.headers['x-forwarded-proto'] === 'https') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  
+  next();
+});
+
 console.log('✅ Basic middleware configured');
 
 // Simple health check - Railway needs this
 console.log('🏥 Setting up health check endpoint...');
 app.get('/health', (req, res) => {
   console.log('🏥 Health check requested');
+  
+  // Detect if request is via HTTPS
+  const isHttps = req.headers['x-forwarded-proto'] === 'https' || 
+                  req.headers['x-forwarded-ssl'] === 'on' ||
+                  req.secure;
+  
   res.status(200).json({
     status: 'OK',
     timestamp: new Date().toISOString(),
@@ -50,6 +123,10 @@ app.get('/health', (req, res) => {
     platform: 'Railway',
     railway_env: process.env.RAILWAY_ENVIRONMENT || false,
     railway_domain: process.env.RAILWAY_PUBLIC_DOMAIN || null,
+    protocol: isHttps ? 'https' : 'http',
+    forwarded_proto: req.headers['x-forwarded-proto'] || 'not set',
+    forwarded_host: req.headers['x-forwarded-host'] || 'not set',
+    real_ip: req.headers['x-real-ip'] || req.connection.remoteAddress,
     message: 'SmartChoice AI is running!',
     uptime: process.uptime(),
     memory: process.memoryUsage()
