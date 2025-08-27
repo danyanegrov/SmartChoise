@@ -20,6 +20,8 @@ import RandomDecisionPage from '@/components/pages/RandomDecisionPage';
 import DashboardPage from '@/components/pages/DashboardPage';
 import HistoryPage from '@/components/pages/HistoryPage';
 import ProfilePage from '@/components/pages/ProfilePage';
+import DatabasePage from '@/components/pages/DatabasePage';
+import PerplexityPage from '@/components/pages/PerplexityPage';
 
 // Hooks and Stores
 import { useAuthStore } from '@/store/useAuthStore';
@@ -220,6 +222,28 @@ function App() {
                         <ProtectedRoute>
                           <ErrorBoundary>
                             <ProfilePage />
+                          </ErrorBoundary>
+                        </ProtectedRoute>
+                      } 
+                    />
+                    
+                    <Route 
+                      path="/database" 
+                      element={
+                        <ProtectedRoute>
+                          <ErrorBoundary>
+                            <DatabasePage />
+                          </ErrorBoundary>
+                        </ProtectedRoute>
+                      } 
+                    />
+                    
+                    <Route 
+                      path="/perplexity" 
+                      element={
+                        <ProtectedRoute>
+                          <ErrorBoundary>
+                            <PerplexityPage />
                           </ErrorBoundary>
                         </ProtectedRoute>
                       } 

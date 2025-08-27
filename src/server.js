@@ -11,6 +11,8 @@ import decisionsRoutes from './routes/decisions.js';
 import mlRoutes from './routes/ml.js';
 import analyticsRoutes from './routes/analytics.js';
 import userRoutes from './routes/users.js';
+import databaseRoutes from './routes/database.js';
+import perplexityRoutes from './routes/perplexity.js';
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler.js';
@@ -29,10 +31,41 @@ const PORT = process.env.PORT || 3001;
 
 // Security middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
-}));
+
+// CORS configuration for Railway
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow Railway deployment URLs and local development
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      /^https:\/\/.*\.railway\.app$/,
+      /^https:\/\/.*\.railway\.com$/
+    ];
+    
+    if (process.env.FRONTEND_URL) {
+      allowedOrigins.push(process.env.FRONTEND_URL);
+    }
+    
+    // Allow requests with no origin (mobile apps, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.some(allowed => {
+      if (typeof allowed === 'string') return allowed === origin;
+      if (allowed instanceof RegExp) return allowed.test(origin);
+      return false;
+    })) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
@@ -70,6 +103,8 @@ app.use('/api/decisions', authMiddleware, decisionsRoutes);
 app.use('/api/ml', authMiddleware, mlRoutes);
 app.use('/api/analytics', authMiddleware, analyticsRoutes);
 app.use('/api/users', authMiddleware, userRoutes);
+app.use('/api/database', databaseRoutes);
+app.use('/api/perplexity', perplexityRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -95,10 +130,20 @@ process.on('SIGINT', () => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  logger.info(`🚀 Decision Helper API Server running on port ${PORT}`);
-  logger.info(`📊 Health check: http://localhost:${PORT}/health`);
-  logger.info(`🌍 Environment: ${process.env.NODE_ENV}`);
+app.listen(PORT, '0.0.0.0', () => {
+  const isRailway = process.env.RAILWAY_ENVIRONMENT;
+  const baseUrl = isRailway ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN || 'unknown'}` : `http://localhost:${PORT}`;
+  
+  logger.info(`🚀 SmartChoice AI Server running on port ${PORT}`);
+  logger.info(`📊 Health check: ${baseUrl}/health`);
+  logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  logger.info(`🛤️ Platform: ${isRailway ? 'Railway' : 'Local'}`);
+  
+  if (isRailway) {
+    logger.info(`🌐 Public URL: ${baseUrl}`);
+    logger.info(`🗄️ Database: CSV files loaded`);
+    logger.info(`🤖 Perplexity AI: Integrated`);
+  }
 });
 
 export default app;

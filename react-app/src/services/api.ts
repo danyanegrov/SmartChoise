@@ -10,7 +10,16 @@ import {
   UserInsight,
   EmotionAnalysis,
   LoginForm,
-  RegisterForm
+  RegisterForm,
+  DatabaseStats,
+  DatabaseCategory,
+  DatabaseCriteria,
+  DatabaseDecision,
+  DatabaseOutcome,
+  DatabaseUserProfile,
+  DatabaseRecommendation,
+  DatabaseAnalysisResult,
+  DatabaseSearchResult
 } from '@/types';
 
 class ApiService {
@@ -199,6 +208,72 @@ class ApiService {
     } catch (error) {
       throw new Error('Backend недоступен');
     }
+  }
+
+  // Database Operations
+  async getDatabaseStats(): Promise<DatabaseStats> {
+    return await this.makeRequest<DatabaseStats>('/database/stats');
+  }
+
+  async getDecisionCategories(): Promise<DatabaseCategory[]> {
+    return await this.makeRequest<DatabaseCategory[]>('/database/categories');
+  }
+
+  async getDecisionCriteria(category?: string): Promise<DatabaseCriteria[]> {
+    const endpoint = category ? `/database/criteria?category=${encodeURIComponent(category)}` : '/database/criteria';
+    return await this.makeRequest<DatabaseCriteria[]>(endpoint);
+  }
+
+  async getDecisionsByCategory(category: string, limit = 50): Promise<DatabaseDecision[]> {
+    return await this.makeRequest<DatabaseDecision[]>(`/database/decisions/category/${encodeURIComponent(category)}?limit=${limit}`);
+  }
+
+  async searchDecisionsByScenario(query: string, limit = 20): Promise<DatabaseDecision[]> {
+    return await this.makeRequest<DatabaseDecision[]>(`/database/decisions/scenario?q=${encodeURIComponent(query)}&limit=${limit}`);
+  }
+
+  async getSimilarDecisions(criteria: Record<string, number>, limit = 10): Promise<DatabaseDecision[]> {
+    return await this.makeRequest<DatabaseDecision[]>(`/database/decisions/similar?criteria=${encodeURIComponent(JSON.stringify(criteria))}&limit=${limit}`);
+  }
+
+  async getExpertEvaluations(decisionId: string): Promise<DatabaseExpertEvaluation[]> {
+    return await this.makeRequest<DatabaseExpertEvaluation[]>(`/database/decisions/${decisionId}/evaluations`);
+  }
+
+  async getDecisionOutcome(decisionId: string): Promise<DatabaseOutcome> {
+    return await this.makeRequest<DatabaseOutcome>(`/database/decisions/${decisionId}/outcome`);
+  }
+
+  async getUserProfiles(limit = 50): Promise<DatabaseUserProfile[]> {
+    return await this.makeRequest<DatabaseUserProfile[]>(`/database/users/profiles?limit=${limit}`);
+  }
+
+  async getPersonalizedRecommendations(userProfile: any, context: any, limit = 5): Promise<DatabaseRecommendation[]> {
+    return await this.makeRequest<DatabaseRecommendation[]>('/database/recommendations', 'POST', {
+      userProfile,
+      context,
+      limit
+    });
+  }
+
+  async analyzeDecisionWithDatabase(decisionData: {
+    title: string;
+    description?: string;
+    options: DecisionOption[];
+    userProfile?: UserProfile;
+    context?: any;
+    criteria?: Record<string, number>;
+  }): Promise<DatabaseAnalysisResult> {
+    return await this.makeRequest<DatabaseAnalysisResult>('/database/decisions/analyze', 'POST', decisionData);
+  }
+
+  async searchDatabase(query: string, type?: string, limit = 20): Promise<DatabaseSearchResult> {
+    const endpoint = `/database/search?q=${encodeURIComponent(query)}&type=${type || ''}&limit=${limit}`;
+    return await this.makeRequest<DatabaseSearchResult>(endpoint);
+  }
+
+  async clearDatabaseCache(): Promise<void> {
+    await this.makeRequest('/database/cache/clear', 'POST');
   }
 
   // Utilities

@@ -1,12 +1,17 @@
 {
-  "name": "decision-helper-backend",
+  "name": "smartchoice-ai",
   "version": "1.0.0",
-  "description": "Backend API for Decision Helper Web App",
-  "main": "src/server.js",
+  "description": "SmartChoice AI - Decision Helper with Database and Perplexity AI Integration",
+  "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-    "start": "\"C:\\Program Files\\nodejs\\node.exe\" src/server.js",
-    "dev": "\"C:\\Program Files\\nodejs\\npx.exe\" nodemon src/server.js",
+    "start": "node index.js",
+    "dev": "NODE_ENV=development node index.js",
+    "local-start": "\"C:\\Program Files\\nodejs\\node.exe\" src/server.js",
+    "local-dev": "\"C:\\Program Files\\nodejs\\npx.exe\" nodemon src/server.js",
     "test": "jest",
     "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",

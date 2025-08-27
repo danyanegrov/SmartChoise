@@ -17,7 +17,8 @@ import {
   Casino,
   Dashboard,
   History,
-  Person
+  Person,
+  SmartToy
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useUIStore } from '@/store/useUIStore';
@@ -82,6 +83,18 @@ const navItems: NavItem[] = [
     label: 'Профиль',
     icon: 'Person',
     path: '/profile'
+  },
+  {
+    id: 'database',
+    label: 'База данных',
+    icon: 'Dashboard',
+    path: '/database'
+  },
+  {
+    id: 'perplexity',
+    label: 'Perplexity AI',
+    icon: 'SmartToy',
+    path: '/perplexity'
   }
 ];
 
@@ -92,7 +105,8 @@ const iconComponents = {
   Casino,
   Dashboard,
   History,
-  Person
+  Person,
+  SmartToy
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {

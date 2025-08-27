@@ -323,3 +323,144 @@ export interface ChartOptions {
     };
   };
 }
+
+// Database Types
+export interface DatabaseCategory {
+  id: string;
+  name: string;
+  description: string;
+  examples: string;
+  complexity: string;
+}
+
+export interface DatabaseCriteria {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  weight: number;
+  type: string;
+}
+
+export interface DatabaseDecision {
+  id: string;
+  category: string;
+  scenario: string;
+  alternative: string;
+  criteria: Record<string, number>;
+  factors: {
+    anxiety: string;
+    timePressure: string;
+    importance: string;
+    informationAvailability: string;
+    experience: string;
+    financialResources: string;
+    socialSupport: string;
+    emotionalState: string;
+    selfConfidence: string;
+    riskTolerance: string;
+  };
+  metrics: {
+    overallScore: number;
+    decisionTime: number;
+    complexity: number;
+    confidence: number;
+    risk: number;
+  };
+  similarity?: number;
+  outcome?: {
+    satisfaction: number;
+    stress: number;
+  };
+}
+
+export interface DatabaseOutcome {
+  id: string;
+  decisionId: string;
+  wasChosen: boolean;
+  satisfaction: number;
+  stress: number;
+  financialImpact: string;
+  emotionalImpact: string;
+  timeToResult: string;
+  lessons: string;
+}
+
+export interface DatabaseUserProfile {
+  id: string;
+  age: number;
+  gender: string;
+  education: string;
+  maritalStatus: string;
+  income: string;
+  region: string;
+  employment: string;
+  decisionExperience: number;
+  decisionStyle: string;
+}
+
+export interface DatabaseExpertEvaluation {
+  id: string;
+  decisionId: string;
+  expertise: string;
+  complexity: number;
+  risks: string;
+  approach: string;
+  confidence: number;
+}
+
+export interface DatabaseRecommendation {
+  id: string;
+  category: string;
+  scenario: string;
+  alternative: string;
+  score: number;
+  criteria: Record<string, number>;
+  factors: DatabaseDecision['factors'];
+  metrics: DatabaseDecision['metrics'];
+  outcome?: DatabaseDecision['outcome'];
+}
+
+export interface DatabaseAnalysisResult {
+  title: string;
+  description?: string;
+  options: Array<{
+    text: string;
+    score: number;
+    reasoning: string;
+    databaseInsights?: {
+      category: string;
+      scenario: string;
+      factors: DatabaseDecision['factors'];
+      metrics: DatabaseDecision['metrics'];
+    };
+  }>;
+  recommendations: DatabaseRecommendation[];
+  expertInsights: DatabaseExpertEvaluation[];
+  databaseStats: {
+    similarDecisionsFound: number;
+    totalRecommendations: number;
+    expertInsightsAvailable: number;
+  };
+}
+
+export interface DatabaseSearchResult {
+  query: string;
+  results: {
+    decisions: DatabaseDecision[];
+    categories: DatabaseCategory[];
+    criteria: DatabaseCriteria[];
+    users: DatabaseUserProfile[];
+  };
+  totalResults: number;
+  searchTypes: string[];
+}
+
+export interface DatabaseStats {
+  totalDecisions: number;
+  totalCategories: number;
+  totalCriteria: number;
+  totalUsers: number;
+  totalOutcomes: number;
+  lastUpdated: string;
+}
