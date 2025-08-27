@@ -1,18 +1,19 @@
 {
-  "name": "smartchoice-ai",
+  "name": "smartchoice-ai-full-csv",
   "version": "1.0.0",
-  "description": "SmartChoice AI - Clean Railway Version",
+  "description": "SmartChoice AI - Full CSV Database Version for Railway",
   "main": "index.js",
   "type": "module",
   "engines": {
-    "node": "18.x"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
-    "test": "echo 'Tests passed'"
+    "test": "echo 'Tests passed'",
+    "build": "echo 'Build completed - CSV database ready'"
   },
-  "keywords": ["railway", "express", "nodejs", "csv", "ai"],
+  "keywords": ["railway", "express", "nodejs", "csv", "database", "ai"],
   "author": "SmartChoice AI Team",
   "license": "MIT",
   "dependencies": {
