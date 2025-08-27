@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import perplexityService from '../services/perplexityService.js';
+
 const router = express.Router();
-const perplexityService = require('../services/perplexityService.js');
 
 // Test Perplexity API connection
 router.get('/test', async (req, res) => {
@@ -107,4 +108,4 @@ router.post('/query', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

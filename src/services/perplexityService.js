@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 class PerplexityService {
     constructor() {
@@ -64,4 +64,5 @@ class PerplexityService {
     }
 }
 
-module.exports = new PerplexityService();
+const perplexityService = new PerplexityService();
+export default perplexityService;
