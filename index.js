@@ -55,6 +55,19 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files from public directory
+app.use(express.static('public'));
+
+// Serve the main HTML application
+app.get('/app', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+});
+
+// Redirect root to the app
+app.get('/', (req, res) => {
+    res.redirect('/app');
+});
+
 // Security headers for Railway
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
