@@ -25,6 +25,10 @@ const PORT = process.env.PORT || 3000;
 console.log('🔌 Server will listen on port:', PORT);
 console.log('🌍 Environment:', process.env.NODE_ENV || 'production');
 console.log('🛤️ Railway Environment:', process.env.RAILWAY_ENVIRONMENT || 'false');
+console.log('🏠 Railway Domain:', process.env.RAILWAY_PUBLIC_DOMAIN || 'not set');
+console.log('🔑 Railway Project ID:', process.env.RAILWAY_PROJECT_ID || 'not set');
+console.log('📦 Railway Service ID:', process.env.RAILWAY_SERVICE_ID || 'not set');
+console.log('🌐 Railway Environment Variables:', Object.keys(process.env).filter(key => key.startsWith('RAILWAY_')).join(', ') || 'none');
 
 // CORS configuration for Railway - Fixed for wildcard domains
 const corsOptions = {
@@ -468,8 +472,18 @@ server.on('error', (err) => {
     const newPort = PORT + 1;
     console.log(`🔄 Attempting to use port ${newPort}...`);
     server.listen(newPort, '0.0.0.0');
+  } else if (err.code === 'EACCES') {
+    console.error(`💥 Permission denied for port ${PORT}. This might be a Railway permission issue.`);
+    console.error('💥 Error details:', err.message);
+    process.exit(1);
+  } else if (err.code === 'EADDRNOTAVAIL') {
+    console.error(`💥 Port ${PORT} is not available. Railway might be restricting port access.`);
+    console.error('💥 Error details:', err.message);
+    process.exit(1);
   } else {
     console.error('💥 Server error:', err);
+    console.error('💥 Error code:', err.code);
+    console.error('💥 Error message:', err.message);
     process.exit(1);
   }
 });

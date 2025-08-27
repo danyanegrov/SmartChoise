@@ -7,8 +7,8 @@
   "deploy": {
     "startCommand": "npm start",
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 60,
-    "healthcheckInterval": 30,
+    "healthcheckTimeout": 120,
+    "healthcheckInterval": 45,
     "healthcheckProtocol": "https",
     "restartPolicy": "always"
   }

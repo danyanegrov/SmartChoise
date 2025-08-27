@@ -21,12 +21,12 @@ RUN adduser -S smartchoice -u 1001
 RUN chown -R smartchoice:nodejs /app
 USER smartchoice
 
-# Expose port
+# Expose port (Railway will override this)
 EXPOSE 3000
 
-# Health check
+# Health check (uses dynamic PORT)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
+  CMD curl -f http://localhost:${PORT:-3000}/health || exit 1
 
 # Start the application
 CMD ["npm", "start"]
