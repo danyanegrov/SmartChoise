@@ -4,9 +4,11 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "npm start",
+    "startCommand": "npm run railway-start",
+    "buildCommand": "npm install",
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 300,
-    "restartPolicy": "always"
+    "healthcheckTimeout": 60,
+    "restartPolicy": "always",
+    "numReplicas": 1
   }
 }

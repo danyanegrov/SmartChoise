@@ -14,7 +14,9 @@
     "build": "echo 'Build completed - CSV database ready'",
     "postinstall": "echo 'Railway install completed'",
     "test": "echo 'Tests passed'",
-    "health": "curl http://localhost:3000/health || echo 'Server not running'"
+    "health": "curl http://localhost:3000/health || echo 'Server not running'",
+    "railway-start": "node index.js",
+    "railway-health": "curl -f http://localhost:$PORT/health || exit 1"
   },
   "keywords": [
     "decision-helper", 
