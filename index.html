@@ -13,19 +13,22 @@
     <div class="app-container">
         <!-- Header -->
         <header class="header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="logo">
-                        <h1 class="header__title" onclick="showScreen('home')">🧠 SmartChoice AI</h1>
-                        <p class="header__subtitle">Принимайте решения с искусственным интеллектом</p>
-                    </div>
-                    <nav class="header-nav">
-                        <button class="nav-btn" onclick="showScreen('dashboard')" title="Аналитика">📊</button>
-                        <button class="nav-btn" onclick="showScreen('history')" title="История">📋</button>
-                        <button class="nav-btn" onclick="showScreen('profile')" title="Профиль">⚙️</button>
-                        <button class="nav-btn logout-btn" onclick="app.logout()" title="Выход" style="display: none;">🚪</button>
-                    </nav>
+            <div class="header-content">
+                <div class="logo">
+                    <h1 class="header__title" onclick="showScreen('home')">
+                        <img src="мозг.png" alt="Brain" class="logo-icon">
+                        SmartChoice AI
+                    </h1>
                 </div>
+                <nav class="header-nav">
+                    <button class="nav-btn" onclick="showScreen('dashboard')" title="Аналитика">📊</button>
+                    <button class="nav-btn" onclick="showScreen('history')" title="История">📋</button>
+                    <button class="nav-btn" onclick="showScreen('profile')" title="Профиль">⚙️</button>
+                    <button class="nav-btn logout-btn" onclick="app.logout()" title="Выход" style="display: none;">🚪</button>
+                    <button class="theme-toggle" id="theme-toggle" title="Переключить тему">
+                        <span class="theme-icon" id="theme-icon">🌙</span>
+                    </button>
+                </nav>
             </div>
         </header>
 
@@ -41,26 +44,20 @@
                     <!-- Left Sidebar -->
                     <aside class="sidebar-left">
                         <div class="sidebar-card">
-                            <div class="modes-title">Режимы работы</div>
                             <div class="modes-list" id="modes-list">
                                 <button class="mode-btn active" data-type="simple">
-                                    <span class="mode-icon">⚖️</span>
                                     <span class="mode-name">Выбор (Choice)</span>
                                 </button>
-                                <button class="mode-btn" data-type="ai">
-                                    <span class="mode-icon">🤖</span>
+                                <button class="mode-btn active" data-type="ai">
                                     <span class="mode-name">AI помощник</span>
                                 </button>
                                 <button class="mode-btn" data-type="analysis">
-                                    <span class="mode-icon">📊</span>
                                     <span class="mode-name">Анализ данных</span>
                                 </button>
                                 <button class="mode-btn" data-type="complex">
-                                    <span class="mode-icon">🧠</span>
                                     <span class="mode-name">Сложный анализ</span>
                                 </button>
                                 <button class="mode-btn" data-type="random">
-                                    <span class="mode-icon">🎲</span>
                                     <span class="mode-name">Рандом</span>
                                 </button>
                             </div>
@@ -74,12 +71,11 @@
                             <p>Принимайте решения уверенно. Выберите режим и опишите задачу.</p>
                         </div>
 
-                        <label class="form-label">Опишите вашу ситуацию</label>
-                        <textarea id="home-input" class="textarea" placeholder="Например: Думаю сменить работу, но переживаю о стабильности..."></textarea>
-
-                        <div>
-                            <button id="home-submit" class="btn btn--primary primary-action">
-                                Отправить
+                        
+                        <div class="input-with-send">
+                            <textarea id="home-input" class="textarea" placeholder="Давай решим любой вопрос"></textarea>
+                            <button id="home-submit" class="send-btn" aria-label="Отправить">
+                                <span class="send-icon">↑</span>
                             </button>
                         </div>
 
@@ -92,25 +88,7 @@
                     </section>
 
                     <!-- Right Sidebar -->
-                    <aside class="sidebar-right">
-                        <div class="sidebar-card">
-                            <h4 style="margin-bottom:8px;">Недавние решения</h4>
-                            <div class="recent-list" id="recent-decisions"></div>
-                        </div>
-                        <div class="sidebar-card">
-                            <h4 style="margin-bottom:8px;">Статистика</h4>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <span class="stat-value" id="total-decisions">0</span>
-                                    <span class="stat-label">Решений</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-value" id="accuracy">95%</span>
-                                    <span class="stat-label">Точность</span>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
+                    <aside class="sidebar-right"></aside>
                 </div>
             </div>
 
@@ -130,6 +108,23 @@
                         <h3>⏱️ Среднее время</h3>
                         <div class="metric-value">2.5 мин</div>
                         <div class="metric-label">На принятие решения</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Недавние решения</h3>
+                        <div class="recent-list" id="recent-decisions"></div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Статистика</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value" id="total-decisions">0</span>
+                                <span class="stat-label">Решений</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="accuracy">95%</span>
+                                <span class="stat-label">Точность</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -279,6 +274,54 @@
             // Show success message
             alert('Профиль сохранен успешно!');
         }
+
+        // Theme switching functionality
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            // Check for saved theme preference or default to light theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            
+            // Theme toggle click handler
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+        }
+        
+        function updateThemeIcon(theme) {
+            const themeIcon = document.getElementById('theme-icon');
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeIcon.title = 'Переключить на светлую тему';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeIcon.title = 'Переключить на темную тему';
+            }
+        }
+        
+        // Initialize theme when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            console.log('SmartChoice AI - Railway Deployment Ready');
+            
+            // Check if app-new.js loaded successfully
+            if (typeof SmartChoiceAI !== 'undefined') {
+                window.app = new SmartChoiceAI();
+                console.log('✅ SmartChoice AI initialized successfully');
+            } else {
+                console.error('❌ Failed to load SmartChoice AI');
+                // Fallback functionality
+                initializeFallback();
+            }
+        });
     </script>
 </body>
 </html>
