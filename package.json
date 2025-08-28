@@ -1,6 +1,6 @@
 {
   "name": "smartchoice-ai-full-csv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SmartChoice AI - Full CSV Database Version for Railway",
   "main": "index.js",
   "type": "module",

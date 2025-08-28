@@ -12,5 +12,12 @@
     "healthcheckProtocol": "https",
     "restartPolicy": "always",
     "numReplicas": 1
+  },
+  "environments": {
+    "production": {
+      "variables": {
+        "CACHE_VERSION": "20250828120000"
+      }
+    }
   }
 }
