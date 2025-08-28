@@ -66,7 +66,7 @@ app.get('/app', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    res.sendFile(path.join(process.cwd(), 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'main-app.html'));
 });
 
 // Redirect root to the app
@@ -80,7 +80,16 @@ app.get('/main', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    res.sendFile(path.join(process.cwd(), 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'main-app.html'));
+});
+
+// Home page endpoint - serves the main application
+app.get('/home', (req, res) => {
+    // Prevent caching to ensure fresh content
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.sendFile(path.join(process.cwd(), 'main-app.html'));
 });
 
 // Security headers for Railway
@@ -455,18 +464,25 @@ app.get('/api/database/csv', async (req, res) => {
 
 // Debug endpoint to check current HTML file
 app.get('/debug/html', (req, res) => {
-    const htmlPath = path.join(process.cwd(), 'index.html');
+    const htmlPath = path.join(process.cwd(), 'main-app.html');
     const exists = fs.existsSync(htmlPath);
     const stats = exists ? fs.statSync(htmlPath) : null;
     
     res.json({
-        currentHtmlFile: 'index.html',
+        currentHtmlFile: 'main-app.html',
         fullPath: htmlPath,
         exists: exists,
         fileSize: exists ? stats.size : null,
         lastModified: exists ? stats.mtime : null,
         currentDirectory: process.cwd(),
-        availableFiles: fs.readdirSync(process.cwd()).filter(f => f.endsWith('.html'))
+        availableFiles: fs.readdirSync(process.cwd()).filter(f => f.endsWith('.html')),
+        endpoints: [
+            '/ - redirects to /app',
+            '/app - main application page',
+            '/main - alternative main page',
+            '/home - home page',
+            '/debug/html - this endpoint'
+        ]
     });
 });
 

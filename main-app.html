@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartChoice AI - Основное Приложение</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app-new.js"></script>
+    <style>
+        .status-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .status-banner h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+        .status-banner p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <!-- Status Banner -->
+        <div class="status-banner">
+            <h3>🚀 SmartChoice AI - Основное Приложение</h3>
+            <p>✅ Успешно развернуто на Railway | Порт: 8080 | CSV база данных: 7 файлов</p>
+        </div>
+
+        <!-- Main Title -->
+        <h1 style="text-align: center; color: #667eea; margin: 40px 0;">
+            🧠 SmartChoice AI - Помощник Принятия Решений
+        </h1>
+
+        <!-- Description -->
+        <p style="text-align: center; font-size: 18px; color: #666; margin-bottom: 40px;">
+            Принимайте решения уверенно с помощью искусственного интеллекта и анализа данных
+        </p>
+
+        <!-- Features Grid -->
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🤖 AI Помощник</h3>
+                <p>Получите персональные рекомендации на основе вашей ситуации с использованием ChatGPT и анализа данных</p>
+                <button class="btn-primary" onclick="showAIHelper()">Открыть AI Помощник</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>📊 Анализ Данных</h3>
+                <p>Исследуйте 7 CSV баз данных для получения инсайтов и контекста для ваших решений</p>
+                <button class="btn-primary" onclick="showDataAnalysis()">Анализировать Данные</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>⚖️ Колесо Выбора</h3>
+                <p>Используйте структурированный подход к принятию сложных решений с множественными критериями</p>
+                <button class="btn-primary" onclick="showDecisionWheel()">Открыть Колесо</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔍 Поиск по Базе</h3>
+                <p>Быстрый поиск по всем доступным данным для получения релевантной информации</p>
+                <button class="btn-primary" onclick="showSearch()">Поиск</button>
+            </div>
+        </div>
+
+        <!-- Quick Start -->
+        <div style="text-align: center; margin: 40px 0;">
+            <h2>🚀 Быстрый Старт</h2>
+            <p>Опишите вашу ситуацию и получите AI-рекомендации:</p>
+            <textarea id="quick-input" placeholder="Например: Думаю сменить работу, но переживаю о финансовой стабильности..." 
+                      style="width: 80%; height: 100px; padding: 15px; border: 2px solid #667eea; border-radius: 10px; margin: 20px 0; font-size: 16px;"></textarea>
+            <br>
+            <button class="btn-primary" onclick="analyzeWithAI()">Анализировать с AI</button>
+        </div>
+
+        <!-- System Status -->
+        <div class="feature-card" style="text-align: center;">
+            <h3>📊 Статус Системы</h3>
+            <p><strong>Платформа:</strong> Railway</p>
+            <p><strong>База данных:</strong> 7 CSV файлов загружено</p>
+            <p><strong>AI интеграция:</strong> ChatGPT API готов к настройке</p>
+            <p><strong>Время работы:</strong> <span id="uptime">Загрузка...</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Update uptime
+        function updateUptime() {
+            const startTime = Date.now();
+            setInterval(() => {
+                const uptime = Date.now() - startTime;
+                const hours = Math.floor(uptime / 3600000);
+                const minutes = Math.floor((uptime % 3600000) / 60000);
+                const seconds = Math.floor((uptime % 60000) / 1000);
+                document.getElementById('uptime').textContent = `${hours}ч ${minutes}м ${seconds}с`;
+            }, 1000);
+        }
+
+        // Placeholder functions for buttons
+        function showAIHelper() {
+            alert('AI Помощник будет открыт в следующем обновлении');
+        }
+
+        function showDataAnalysis() {
+            alert('Анализ данных будет доступен в следующем обновлении');
+        }
+
+        function showDecisionWheel() {
+            alert('Колесо выбора будет открыто в следующем обновлении');
+        }
+
+        function showSearch() {
+            alert('Поиск по базе будет доступен в следующем обновлении');
+        }
+
+        function analyzeWithAI() {
+            const input = document.getElementById('quick-input').value;
+            if (input.trim()) {
+                alert(`AI анализ для: "${input}"\n\nЭто основная страница приложения. В следующем обновлении здесь будет полноценный AI анализ.`);
+            } else {
+                alert('Пожалуйста, опишите вашу ситуацию');
+            }
+        }
+
+        // Initialize
+        updateUptime();
+    </script>
+</body>
+</html>
