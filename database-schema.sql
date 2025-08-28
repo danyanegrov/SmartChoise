@@ -145,3 +145,4 @@ ORDER BY timestamp DESC;
 -- Grant permissions (adjust as needed for your Railway setup)
 -- GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO your_railway_user;
 -- GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO your_railway_user;
+
