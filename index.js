@@ -57,10 +57,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from public directory
 app.use(express.static('public'));
+// Serve project root for redesigned assets (style.css, app.js, index.html)
+app.use(express.static('.'));
 
 // Serve the main HTML application
 app.get('/app', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+    res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Redirect root to the app

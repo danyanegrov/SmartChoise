@@ -6,8 +6,10 @@
     <title>SmartChoice AI - Помощник Решений</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app-new.js"></script>
 </head>
 <body>
+    <a href="#main" class="skip-link">Пропустить к основному контенту</a>
     <div class="app-container">
         <!-- Header -->
         <header class="header">
@@ -31,65 +33,144 @@
         <div id="toast-container" class="toast-container"></div>
 
         <!-- Main Content -->
-        <main class="main-content container">
+        <main id="main" class="main-content container">
             
             <!-- Home Screen -->
             <div id="home-screen" class="screen active">
-                <div class="welcome-section">
-                    <h2>Добро пожаловать в SmartChoice AI!</h2>
-                    <p>Наш ИИ помощник поможет вам принимать решения быстро и уверенно, используя передовые алгоритмы машинного обучения.</p>
-                    
-                    <!-- Statistics -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">🎯</div>
-                            <div class="stat-number" id="total-decisions">156</div>
-                            <div class="stat-label">Решений принято</div>
+                <div class="layout-grid">
+                    <!-- Left Sidebar -->
+                    <aside class="sidebar-left">
+                        <div class="sidebar-card">
+                            <div class="modes-title">Режимы работы</div>
+                            <div class="modes-list" id="modes-list">
+                                <button class="mode-btn active" data-type="simple">
+                                    <span class="mode-icon">⚖️</span>
+                                    <span class="mode-name">Выбор (Choice)</span>
+                                </button>
+                                <button class="mode-btn" data-type="ai">
+                                    <span class="mode-icon">🤖</span>
+                                    <span class="mode-name">AI помощник</span>
+                                </button>
+                                <button class="mode-btn" data-type="analysis">
+                                    <span class="mode-icon">📊</span>
+                                    <span class="mode-name">Анализ данных</span>
+                                </button>
+                                <button class="mode-btn" data-type="complex">
+                                    <span class="mode-icon">🧠</span>
+                                    <span class="mode-name">Сложный анализ</span>
+                                </button>
+                                <button class="mode-btn" data-type="random">
+                                    <span class="mode-icon">🎲</span>
+                                    <span class="mode-name">Рандом</span>
+                                </button>
+                            </div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">⭐</div>
-                            <div class="stat-number">4.2</div>
-                            <div class="stat-label">Средняя оценка</div>
+                    </aside>
+
+                    <!-- Center Panel -->
+                    <section class="center-panel">
+                        <div class="welcome-section">
+                            <h2>Добро пожаловать в SmartChoice AI!</h2>
+                            <p>Принимайте решения уверенно. Выберите режим и опишите задачу.</p>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">🚀</div>
-                            <div class="stat-number">89%</div>
-                            <div class="stat-label">Точность ИИ</div>
+
+                        <label class="form-label">Опишите вашу ситуацию</label>
+                        <textarea id="home-input" class="textarea" placeholder="Например: Думаю сменить работу, но переживаю о стабильности..."></textarea>
+
+                        <div>
+                            <button id="home-submit" class="btn btn--primary primary-action">
+                                Отправить
+                            </button>
                         </div>
-                    </div>
+
+                        <div class="answer-area" id="home-answer" aria-live="polite"></div>
+
+                        <div>
+                            <h3 style="margin-bottom:8px;">Примеры вопросов</h3>
+                            <div class="examples" id="examples-list"></div>
+                        </div>
+                    </section>
+
+                    <!-- Right Sidebar -->
+                    <aside class="sidebar-right">
+                        <div class="sidebar-card">
+                            <h4 style="margin-bottom:8px;">Недавние решения</h4>
+                            <div class="recent-list" id="recent-decisions"></div>
+                        </div>
+                        <div class="sidebar-card">
+                            <h4 style="margin-bottom:8px;">Статистика</h4>
+                            <div class="stats-block">
+                                <div class="stat-mini">
+                                    <div class="stat-number" id="mini-total">0</div>
+                                    <div class="stat-label">Всего</div>
+                                </div>
+                                <div class="stat-mini">
+                                    <div class="stat-number" id="mini-accuracy">0%</div>
+                                    <div class="stat-label">Точность</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar-card">
+                            <h4 style="margin-bottom:8px;">Инструменты</h4>
+                            <div class="recent-list">
+                                <button class="btn btn--outline" onclick="showScreen('dashboard')">Открыть дашборд</button>
+                                <button class="btn btn--outline" onclick="showScreen('history')">История решений</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- Decision Screen -->
+            <div id="decision-screen" class="screen">
+                <div class="screen-header">
+                    <button class="btn-back" onclick="showScreen('home')">← Назад</button>
+                    <h2 class="decision-title">Принятие решения</h2>
+                    <p class="decision-description">Опишите вашу ситуацию</p>
                 </div>
 
-                <div class="decision-types">
-                    <div class="decision-card" data-type="simple">
-                        <div class="decision-card__icon">⚡</div>
-                        <h3>Быстрое решение</h3>
-                        <p>Emotion-aware алгоритм для повседневных решений</p>
-                        <div class="tech-badge">Emotion AI</div>
-                        <button class="btn btn--primary">Начать</button>
+                <div class="decision-form">
+                    <div class="form-group">
+                        <label class="form-label">Опишите вашу ситуацию:</label>
+                        <textarea id="decision-question" class="form-control" placeholder="Например: Думаю сменить работу, но переживаю о стабильности..."></textarea>
                     </div>
 
-                    <div class="decision-card" data-type="complex">
-                        <div class="decision-card__icon">🧮</div>
-                        <h3>Сложный анализ</h3>
-                        <p>AHP + TOPSIS для многокритериальных решений</p>
-                        <div class="tech-badge">MCDA</div>
-                        <button class="btn btn--primary">Начать</button>
+                    <div class="options-section">
+                        <h4>Ваши варианты:</h4>
+                        <div id="decision-options" class="options-list">
+                            <div class="option-item">
+                                <input type="text" class="form-control" placeholder="Вариант 1">
+                                <button class="btn btn--small btn--danger" onclick="this.parentElement.remove()">×</button>
+                            </div>
+                            <div class="option-item">
+                                <input type="text" class="form-control" placeholder="Вариант 2">
+                                <button class="btn btn--small btn--danger" onclick="this.parentElement.remove()">×</button>
+                            </div>
+                        </div>
+                        <button id="add-decision-option" class="btn btn--secondary">+ Добавить вариант</button>
                     </div>
 
-                    <div class="decision-card" data-type="random">
-                        <div class="decision-card__icon">🎲</div>
-                        <h3>Случайный выбор</h3>
-                        <p>Интерактивное колесо выбора с анимацией</p>
-                        <div class="tech-badge">Random</div>
-                        <button class="btn btn--primary">Начать</button>
-                    </div>
+                    <button id="get-decision-recommendation" class="btn btn--primary btn--full-width">
+                        Получить рекомендацию
+                    </button>
                 </div>
 
-                <!-- AI Tips Section -->
-                <div class="tips-section">
-                    <h3>💡 ИИ советы для принятия решений</h3>
-                    <div class="tips-grid" id="tips-container">
-                        <!-- Tips will be loaded dynamically -->
+                <div id="decision-result" class="result-section hidden">
+                    <div class="result-card">
+                        <h3>🎉 Рекомендация готова!</h3>
+                        <div class="recommended-option"></div>
+                        <div class="ai-confidence">
+                            <div class="confidence-label">Уверенность ИИ:</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill"></div>
+                            </div>
+                            <div class="confidence-text"></div>
+                        </div>
+                        <div class="result-explanation"></div>
+                        <div class="result-actions">
+                            <button class="btn btn--secondary" onclick="app.showScreen('home')">На главную</button>
+                            <button class="btn btn--outline" onclick="app.showScreen('history')">История</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -371,6 +452,70 @@
                 </div>
             </div>
 
+            <!-- Dashboard Screen -->
+            <div id="dashboard-screen" class="screen">
+                <div class="screen-header">
+                    <button class="btn-back" onclick="showScreen('home')">← Назад</button>
+                    <h2>Аналитика и статистика</h2>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Общая статистика</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number" id="total-decisions">0</div>
+                                <div class="stat-label">Всего решений</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="success-rate">0%</div>
+                                <div class="stat-label">Успешность</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="avg-confidence">0%</div>
+                                <div class="stat-label">Средняя уверенность</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Типы решений</h3>
+                        <div class="chart-container">
+                            <canvas id="decisions-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Последняя активность</h3>
+                        <div class="activity-list" id="activity-list">
+                            <!-- Activity items will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Screen -->
+            <div id="history-screen" class="screen">
+                <div class="screen-header">
+                    <button class="btn-back" onclick="showScreen('home')">← Назад</button>
+                    <h2>История решений</h2>
+                </div>
+
+                <div class="history-filters">
+                    <select id="history-type-filter" class="form-control">
+                        <option value="">Все типы</option>
+                        <option value="simple">Простой выбор</option>
+                        <option value="complex">Сложный анализ</option>
+                        <option value="random">Случайный выбор</option>
+                    </select>
+                    <button id="export-history" class="btn btn--outline">Экспорт</button>
+                </div>
+
+                <div class="history-container" id="history-list">
+                    <!-- History items will be populated dynamically -->
+                </div>
+            </div>
+
             <!-- Profile Screen -->
             <div id="profile-screen" class="screen">
                 <div class="screen-header">
@@ -459,7 +604,6 @@
         </div>
     </div>
 
-    <script src="api-service.js"></script>
-    <script src="app.js"></script>
+    <script src="app-new.js"></script>
 </body>
 </html>

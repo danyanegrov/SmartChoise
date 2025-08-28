@@ -37,6 +37,7 @@ class SmartChoiceAI {
         this.showScreen('home');
         this.updateStatistics();
         this.loadAITips();
+        this.initializeHomeScreen();
     }
 
     async loadUserData() {
@@ -1285,6 +1286,12 @@ class SmartChoiceAI {
 
         // Animate number counting
         this.animateNumber(totalElement, totalDecisions);
+
+        // Mini stats on home
+        const miniTotal = document.getElementById('mini-total');
+        if (miniTotal) miniTotal.textContent = totalDecisions;
+        const miniAcc = document.getElementById('mini-accuracy');
+        if (miniAcc) miniAcc.textContent = '89%';
     }
 
     animateNumber(element, target) {
@@ -1320,6 +1327,195 @@ class SmartChoiceAI {
                 <p>${tip}</p>
             </div>
         `).join('');
+    }
+
+    // New Home Screen helpers
+    initializeHomeScreen() {
+        // Examples
+        const examples = [
+            'Стоит ли сейчас менять работу?',
+            'Какой ноутбук выбрать для data science?',
+            'Куда поехать в отпуск с бюджетом 1000$?',
+            'Выбрать аренду или ипотеку?'
+        ];
+        const examplesList = document.getElementById('examples-list');
+        if (examplesList) {
+            examplesList.innerHTML = examples.map(e => `<div class="example-item">${e}</div>`).join('');
+        }
+
+        // Recent decisions
+        this.renderRecentDecisions();
+
+        // Mode buttons navigation
+        const modes = document.querySelectorAll('.mode-btn');
+        modes.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modes.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const type = btn.getAttribute('data-type');
+                if (type === 'simple') this.showDecisionScreen('simple');
+                else if (type === 'complex') this.showDecisionScreen('complex');
+                else if (type === 'random') this.showDecisionScreen('random');
+                else if (type === 'analysis') this.showScreen('dashboard');
+                else if (type === 'ai') this.showDecisionScreen('simple');
+            });
+        });
+
+        // Submit action from home text area
+        const submit = document.getElementById('home-submit');
+        const input = document.getElementById('home-input');
+        const answer = document.getElementById('home-answer');
+        if (submit && input && answer) {
+            submit.addEventListener('click', () => {
+                const text = input.value.trim();
+                if (!text) {
+                    this.showToast('Введите описание ситуации', 'error');
+                    return;
+                }
+                answer.textContent = 'Анализирую…';
+                
+                // Try to submit to API first
+                this.submitToAPI(text, answer).catch(() => {
+                    // Fallback to local processing
+                    this.processLocally(text, answer);
+                });
+            });
+        }
+    }
+
+    renderRecentDecisions() {
+        // Try to load from API first, fallback to local data
+        this.loadRecentDecisionsFromAPI().catch(() => {
+            this.renderRecentDecisionsLocal();
+        });
+    }
+    
+    async loadRecentDecisionsFromAPI() {
+        try {
+            const response = await fetch('/api/decisions/recent');
+            if (response.ok) {
+                const decisions = await response.json();
+                this.renderRecentDecisionsFromData(decisions);
+            } else {
+                throw new Error('API response not ok');
+            }
+        } catch (error) {
+            console.error('Failed to load recent decisions from API:', error);
+            this.renderRecentDecisionsLocal();
+        }
+    }
+    
+    renderRecentDecisionsFromData(decisions) {
+        const container = document.getElementById('recent-decisions');
+        if (!container) return;
+        
+        const formatDate = (date) => {
+            const now = new Date();
+            const diff = now - new Date(date);
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(hours / 24);
+            
+            if (hours < 1) return 'Только что';
+            if (hours < 24) return `${hours} час${hours === 1 ? '' : hours < 5 ? 'а' : 'ов'} назад`;
+            if (days < 7) return `${days} дн${days === 1 ? 'ь' : days < 5 ? 'я' : 'ей'} назад`;
+            return new Date(date).toLocaleDateString('ru-RU');
+        };
+        
+        container.innerHTML = decisions.map(d => `
+            <div class="recent-item">
+                <div style="display:flex;justify-content:space-between;gap:8px;">
+                    <span>${this.getTypeLabel(d.decisionType)}</span>
+                    <span style="color:var(--color-text-secondary);font-size:12px;">${formatDate(d.createdAt)}</span>
+                </div>
+                <div style="color:var(--color-text-secondary);font-size:14px;">${(d.title||'').slice(0,60)}</div>
+                <div><strong>${d.chosenOption || 'Анализ завершен'}</strong></div>
+            </div>
+        `).join('');
+    }
+    
+    renderRecentDecisionsLocal() {
+        const container = document.getElementById('recent-decisions');
+        if (!container) return;
+        const recent = this.decisionHistory.slice(0, 5);
+        container.innerHTML = recent.map(d => `
+            <div class="recent-item">
+                <div style="display:flex;justify-content:space-between;gap:8px;">
+                    <span>${this.getTypeLabel(d.type)}</span>
+                    <span style="color:var(--color-text-secondary);font-size:12px;">${new Date(d.timestamp).toLocaleDateString()}</span>
+                </div>
+                <div style="color:var(--color-text-secondary);font-size:14px;">${(d.question||'').slice(0,60)}</div>
+                <div><strong>${d.chosen||d.result||''}</strong></div>
+            </div>
+        `).join('');
+    }
+    
+    // API integration methods
+    async submitToAPI(question, answerElement) {
+        try {
+            // Create a temporary user ID for demo purposes
+            const tempUserId = 'temp_user_' + Date.now();
+            
+            const response = await fetch('/api/decisions/simple', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: question,
+                    userId: tempUserId,
+                    decisionType: 'simple'
+                })
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                answerElement.innerHTML = `
+                    <div class="ai-response">
+                        <div class="response-header">
+                            <strong>🤖 AI Анализ завершен</strong>
+                        </div>
+                        <div class="response-content">
+                            <p><strong>Рекомендация:</strong> ${result.recommendation}</p>
+                            <p><strong>Уверенность:</strong> ${Math.round(result.confidence * 100)}%</p>
+                            <p><strong>Обоснование:</strong> ${result.reasoning}</p>
+                            <div class="response-options">
+                                <strong>Варианты:</strong>
+                                <ul>
+                                    ${result.alternatives.map(alt => `<li>${alt}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Refresh recent decisions
+                this.renderRecentDecisions();
+                
+            } else {
+                throw new Error(`API error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('API submission failed:', error);
+            throw error; // Re-throw to trigger fallback
+        }
+    }
+    
+    processLocally(question, answerElement) {
+        // Fallback to local processing
+        setTimeout(() => {
+            const emotion = this.algorithms.emotionAI.analyze(question);
+            answerElement.innerHTML = `
+                <div class="ai-response">
+                    <div class="response-header">
+                        <strong>🔧 Локальный анализ</strong>
+                    </div>
+                    <div class="response-content">
+                        <p><strong>Рекомендация:</strong> ${this.getEmotionLabel(emotion.emotion)} контекст — начните с простого шага и уточните критерии.</p>
+                        <p><em>Примечание: Используется локальная обработка. API недоступен.</em></p>
+                    </div>
+                </div>
+            `;
+        }, 800);
     }
 
     // Toast notifications
@@ -1859,4 +2055,16 @@ function exportHistory() {
 function closeModal() {
     app.closeModal();
 }
+
+// Global wrappers for navigation used by inline onclick handlers
+function showScreen(screenName) {
+    if (app && typeof app.showScreen === 'function') {
+        app.showScreen(screenName);
+    }
+}
+
+function showDecisionScreen(type) {
+    if (app && typeof app.showDecisionScreen === 'function') {
+        app.showDecisionScreen(type);
+    }
 }
