@@ -3083,3 +3083,160 @@ select.form-control {
 /* Dark theme adjustments */
 [data-theme="dark"] .send-btn { background: #2A2A2A; border-color: var(--color-border); }
 [data-theme="dark"] .send-icon { color: #D1D5DB; }
+
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  /* Header mobile optimization */
+  .header {
+    height: 60px;
+    padding: 0 var(--space-12);
+  }
+  
+  .header-content {
+    padding: 0 var(--space-8);
+  }
+  
+  .header__title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .logo-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .header-nav {
+    gap: var(--space-8);
+  }
+  
+  .nav-btn, .theme-toggle {
+    padding: var(--space-8);
+    min-width: 36px;
+    min-height: 36px;
+    font-size: var(--font-size-base);
+  }
+  
+  /* Layout mobile optimization */
+  .layout-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    padding: 0 var(--space-12);
+  }
+  
+  .sidebar-left {
+    order: 2;
+    margin-top: var(--space-16);
+  }
+  
+  .center-panel {
+    order: 1;
+    padding: var(--space-16);
+  }
+  
+  .sidebar-right {
+    order: 3;
+    margin-top: var(--space-16);
+  }
+  
+  /* Mode buttons mobile */
+  .mode-btn {
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-12);
+    font-size: var(--font-size-sm);
+  }
+  
+  /* Input field mobile */
+  .textarea {
+    min-height: 100px;
+    padding: var(--space-12);
+  }
+  
+  .send-btn {
+    width: 32px;
+    height: 32px;
+    right: 8px;
+    bottom: 8px;
+  }
+  
+  .send-icon {
+    font-size: 14px;
+  }
+  
+  /* Examples mobile */
+  .examples {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  
+  .example-btn {
+    padding: var(--space-12);
+    font-size: var(--font-size-sm);
+  }
+  
+  /* Welcome section mobile */
+  .welcome-section {
+    padding: var(--space-16);
+    margin-bottom: var(--space-16);
+  }
+  
+  .welcome-section h2 {
+    font-size: var(--font-size-lg);
+  }
+  
+  .welcome-section p {
+    font-size: var(--font-size-sm);
+  }
+  
+  /* Dashboard mobile */
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    padding: var(--space-16);
+  }
+  
+  .dashboard-card {
+    padding: var(--space-16);
+  }
+  
+  /* Profile mobile */
+  .profile-section {
+    padding: var(--space-16);
+    margin: 0 var(--space-12);
+  }
+  
+  /* History mobile */
+  .history-header {
+    padding: var(--space-16);
+    margin-bottom: var(--space-16);
+  }
+  
+  .history-item {
+    padding: var(--space-12);
+  }
+}
+
+/* Tablet optimization */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layout-grid {
+    grid-template-columns: 250px 1fr 250px;
+    gap: var(--space-20);
+  }
+  
+  .mode-btn {
+    width: 60%;
+  }
+}
+
+/* Ensure light theme works properly */
+[data-theme="light"] {
+  --color-background: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-border: #E5E7EB;
+  --color-accent: #E8EEF6;
+  --color-bg-1: #F9FAFB;
+  --color-bg-5: #F3F4F6;
+  --color-bg-7: #E5E7EB;
+}
