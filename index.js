@@ -66,7 +66,7 @@ app.get('/app', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    res.sendFile(path.join(process.cwd(), 'main-app.html'));
+    res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Redirect root to the app
@@ -80,7 +80,7 @@ app.get('/main', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    res.sendFile(path.join(process.cwd(), 'main-app.html'));
+    res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Home page endpoint - serves the main application
@@ -89,7 +89,7 @@ app.get('/home', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    res.sendFile(path.join(process.cwd(), 'main-app.html'));
+    res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Security headers for Railway
@@ -464,12 +464,12 @@ app.get('/api/database/csv', async (req, res) => {
 
 // Debug endpoint to check current HTML file
 app.get('/debug/html', (req, res) => {
-    const htmlPath = path.join(process.cwd(), 'main-app.html');
+    const htmlPath = path.join(process.cwd(), 'index.html');
     const exists = fs.existsSync(htmlPath);
     const stats = exists ? fs.statSync(htmlPath) : null;
     
     res.json({
-        currentHtmlFile: 'main-app.html',
+        currentHtmlFile: 'index.html',
         fullPath: htmlPath,
         exists: exists,
         fileSize: exists ? stats.size : null,
@@ -478,11 +478,12 @@ app.get('/debug/html', (req, res) => {
         availableFiles: fs.readdirSync(process.cwd()).filter(f => f.endsWith('.html')),
         endpoints: [
             '/ - redirects to /app',
-            '/app - main application page',
-            '/main - alternative main page',
-            '/home - home page',
+            '/app - main application page (index.html)',
+            '/main - alternative main page (index.html)',
+            '/home - home page (index.html)',
             '/debug/html - this endpoint'
-        ]
+        ],
+        note: 'Using original index.html as the main application file'
     });
 });
 
