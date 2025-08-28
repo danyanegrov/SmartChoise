@@ -62,12 +62,25 @@ app.use(express.static('.'));
 
 // Serve the main HTML application
 app.get('/app', (req, res) => {
+    // Prevent caching to ensure fresh content
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Redirect root to the app
 app.get('/', (req, res) => {
     res.redirect('/app');
+});
+
+// Alternative main page endpoint
+app.get('/main', (req, res) => {
+    // Prevent caching to ensure fresh content
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.sendFile(path.join(process.cwd(), 'index.html'));
 });
 
 // Security headers for Railway
@@ -438,6 +451,23 @@ app.get('/api/database/csv', async (req, res) => {
       timestamp: new Date().toISOString()
     });
   }
+});
+
+// Debug endpoint to check current HTML file
+app.get('/debug/html', (req, res) => {
+    const htmlPath = path.join(process.cwd(), 'index.html');
+    const exists = fs.existsSync(htmlPath);
+    const stats = exists ? fs.statSync(htmlPath) : null;
+    
+    res.json({
+        currentHtmlFile: 'index.html',
+        fullPath: htmlPath,
+        exists: exists,
+        fileSize: exists ? stats.size : null,
+        lastModified: exists ? stats.mtime : null,
+        currentDirectory: process.cwd(),
+        availableFiles: fs.readdirSync(process.cwd()).filter(f => f.endsWith('.html'))
+    });
 });
 
 // 404 handler
