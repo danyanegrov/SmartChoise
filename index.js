@@ -279,9 +279,15 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Root endpoint
+// Root endpoint - redirects to HTML app
 app.get('/', (req, res) => {
-  console.log('🏠 Root endpoint requested');
+  console.log('🏠 Root endpoint requested - redirecting to /app');
+  res.redirect('/app');
+});
+
+// API Information endpoint
+app.get('/api/info', (req, res) => {
+  console.log('📋 API info requested');
   res.json({
     name: 'SmartChoice AI',
     status: 'running',
@@ -291,6 +297,8 @@ app.get('/', (req, res) => {
     endpoints: [
       '/health',
       '/',
+      '/app',
+      '/api/info',
       '/api/database/stats',
       '/api/database/search',
       '/api/database/dataset/:filename',
