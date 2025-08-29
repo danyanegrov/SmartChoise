@@ -1,0 +1,304 @@
+{
+  "test_queries": [
+    {
+      "id": "query_001",
+      "text": "Найди ноутбук для работы",
+      "expected_intent": "search",
+      "expected_entities": ["ноутбук"],
+      "expected_filters": {
+        "product_type": "ноутбук",
+        "purpose": "работа"
+      },
+      "category": "electronics",
+      "difficulty": "easy"
+    },
+    {
+      "id": "query_002",
+      "text": "Хочу купить телефон с хорошей камерой до 50000 рублей",
+      "expected_intent": "search",
+      "expected_entities": ["телефон", "камера"],
+      "expected_filters": {
+        "product_type": "телефон",
+        "max_price": 50000,
+        "feature": "камера"
+      },
+      "category": "electronics",
+      "difficulty": "medium"
+    },
+    {
+      "id": "query_003",
+      "text": "Покажи книги по программированию на Python",
+      "expected_intent": "search",
+      "expected_entities": ["книги", "программирование", "Python"],
+      "expected_filters": {
+        "product_type": "книги",
+        "topic": "программирование",
+        "language": "Python"
+      },
+      "category": "books",
+      "difficulty": "medium"
+    },
+    {
+      "id": "query_004",
+      "text": "Нужна спортивная одежда для бега",
+      "expected_intent": "search",
+      "expected_entities": ["спортивная одежда", "бег"],
+      "expected_filters": {
+        "product_type": "спортивная одежда",
+        "activity": "бег"
+      },
+      "category": "sports",
+      "difficulty": "easy"
+    },
+    {
+      "id": "query_005",
+      "text": "Ищу подарок для мамы на день рождения",
+      "expected_intent": "search",
+      "expected_entities": ["подарок", "мама", "день рождения"],
+      "expected_filters": {
+        "occasion": "день рождения",
+        "recipient": "мама"
+      },
+      "category": "gifts",
+      "difficulty": "hard"
+    },
+    {
+      "id": "query_006",
+      "text": "Рекомендуй фильмы в жанре фантастика",
+      "expected_intent": "recommendation",
+      "expected_entities": ["фильмы", "фантастика"],
+      "expected_filters": {
+        "product_type": "фильмы",
+        "genre": "фантастика"
+      },
+      "category": "entertainment",
+      "difficulty": "easy"
+    },
+    {
+      "id": "query_007",
+      "text": "Какая мебель подойдет для маленькой кухни?",
+      "expected_intent": "recommendation",
+      "expected_entities": ["мебель", "кухня"],
+      "expected_filters": {
+        "product_type": "мебель",
+        "room": "кухня",
+        "size": "маленькая"
+      },
+      "category": "home",
+      "difficulty": "medium"
+    },
+    {
+      "id": "query_008",
+      "text": "Хочу научиться готовить итальянскую пасту",
+      "expected_intent": "search",
+      "expected_entities": ["готовить", "итальянская паста"],
+      "expected_filters": {
+        "product_type": "кулинарные книги",
+        "cuisine": "итальянская",
+        "dish": "паста"
+      },
+      "category": "cooking",
+      "difficulty": "hard"
+    },
+    {
+      "id": "query_009",
+      "text": "Найди дешевые авиабилеты в Москву на следующей неделе",
+      "expected_intent": "search",
+      "expected_entities": ["авиабилеты", "Москва", "следующей неделе"],
+      "expected_filters": {
+        "product_type": "авиабилеты",
+        "destination": "Москва",
+        "price_range": "дешевые",
+        "time": "следующей неделе"
+      },
+      "category": "travel",
+      "difficulty": "hard"
+    },
+    {
+      "id": "query_010",
+      "text": "Покажи последние новинки в мире технологий",
+      "expected_intent": "search",
+      "expected_entities": ["новинки", "технологии"],
+      "expected_filters": {
+        "product_type": "технологии",
+        "novelty": "новинки"
+      },
+      "category": "technology",
+      "difficulty": "medium"
+    }
+  ],
+  "edge_cases": [
+    {
+      "id": "edge_001",
+      "text": "",
+      "expected_error": "empty_text",
+      "description": "Пустой запрос"
+    },
+    {
+      "id": "edge_002",
+      "text": "1234567890",
+      "expected_intent": "unknown",
+      "description": "Только цифры"
+    },
+    {
+      "id": "edge_003",
+      "text": "!@#$%^&*()",
+      "expected_intent": "unknown",
+      "description": "Только символы"
+    },
+    {
+      "id": "edge_004",
+      "text": "а" * 1000,
+      "expected_intent": "unknown",
+      "description": "Очень длинный запрос"
+    },
+    {
+      "id": "edge_005",
+      "text": "Найди товар с ценой от 100 до 200 рублей и рейтингом выше 4.5 звезд в категории электроника для детей",
+      "expected_intent": "search",
+      "expected_entities": ["товар", "электроника", "дети"],
+      "expected_filters": {
+        "min_price": 100,
+        "max_price": 200,
+        "min_rating": 4.5,
+        "category": "электроника",
+        "target_audience": "дети"
+      },
+      "description": "Сложный запрос с множественными фильтрами"
+    }
+  ],
+  "multilingual_queries": [
+    {
+      "id": "multi_001",
+      "text": "Find a laptop for work",
+      "language": "en",
+      "expected_intent": "search",
+      "expected_entities": ["laptop", "work"]
+    },
+    {
+      "id": "multi_002",
+      "text": "Busco un teléfono con buena cámara",
+      "language": "es",
+      "expected_intent": "search",
+      "expected_entities": ["teléfono", "cámara"]
+    },
+    {
+      "id": "multi_003",
+      "text": "Je veux acheter des livres sur la cuisine française",
+      "language": "fr",
+      "expected_intent": "search",
+      "expected_entities": ["livres", "cuisine française"]
+    }
+  ],
+  "sentiment_analysis_tests": [
+    {
+      "id": "sentiment_001",
+      "text": "Отличный сервис, очень доволен!",
+      "expected_sentiment": "positive",
+      "expected_score": 0.8
+    },
+    {
+      "id": "sentiment_002",
+      "text": "Ужасный сервис, не рекомендую",
+      "expected_sentiment": "negative",
+      "expected_score": -0.7
+    },
+    {
+      "id": "sentiment_003",
+      "text": "Обычный сервис, ничего особенного",
+      "expected_sentiment": "neutral",
+      "expected_score": 0.0
+    }
+  ],
+  "intent_classification_tests": [
+    {
+      "id": "intent_001",
+      "text": "Что это за товар?",
+      "expected_intent": "information",
+      "confidence_threshold": 0.8
+    },
+    {
+      "id": "intent_002",
+      "text": "Сравни эти два товара",
+      "expected_intent": "comparison",
+      "confidence_threshold": 0.8
+    },
+    {
+      "id": "intent_003",
+      "text": "Покажи похожие товары",
+      "expected_intent": "similarity",
+      "confidence_threshold": 0.8
+    },
+    {
+      "id": "intent_004",
+      "text": "Какие есть отзывы?",
+      "expected_intent": "reviews",
+      "confidence_threshold": 0.8
+    }
+  ],
+  "entity_extraction_tests": [
+    {
+      "id": "entity_001",
+      "text": "Найди iPhone 14 Pro Max в красном цвете",
+      "expected_entities": [
+        {"text": "iPhone 14 Pro Max", "label": "PRODUCT", "type": "smartphone"},
+        {"text": "красный", "label": "COLOR"}
+      ]
+    },
+    {
+      "id": "entity_002",
+      "text": "Хочу купить книгу 'Война и мир' Толстого",
+      "expected_entities": [
+        {"text": "книга", "label": "PRODUCT", "type": "book"},
+        {"text": "Война и мир", "label": "TITLE"},
+        {"text": "Толстой", "label": "AUTHOR"}
+      ]
+    },
+    {
+      "id": "entity_003",
+      "text": "Нужен рейс из Санкт-Петербурга в Казань на 15 марта",
+      "expected_entities": [
+        {"text": "рейс", "label": "PRODUCT", "type": "flight"},
+        {"text": "Санкт-Петербург", "label": "LOCATION", "type": "departure"},
+        {"text": "Казань", "label": "LOCATION", "type": "destination"},
+        {"text": "15 марта", "label": "DATE"}
+      ]
+    }
+  ],
+  "performance_benchmarks": {
+    "response_time_threshold_ms": 500,
+    "accuracy_threshold": 0.85,
+    "concurrent_requests": 100,
+    "memory_usage_mb": 512,
+    "cpu_usage_percent": 80
+  },
+  "test_scenarios": [
+    {
+      "name": "Basic Search Flow",
+      "steps": [
+        "Отправить поисковый запрос",
+        "Получить результаты",
+        "Применить фильтры",
+        "Получить отфильтрованные результаты"
+      ]
+    },
+    {
+      "name": "Recommendation Flow",
+      "steps": [
+        "Отправить запрос на рекомендации",
+        "Получить персонализированные рекомендации",
+        "Оставить отзыв",
+        "Получить обновленные рекомендации"
+      ]
+    },
+    {
+      "name": "NLP Processing Flow",
+      "steps": [
+        "Отправить текст для анализа",
+        "Получить результаты NLP",
+        "Использовать извлеченные сущности",
+        "Применить извлеченные фильтры"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "text": "Хочу купить ноутбук для работы с дизайном до 100000 рублей",
+    "expected_intent": "purchase",
+    "expected_entities": [
+      "ноутбук",
+      "100000 рублей"
+    ],
+    "expected_filters": {
+      "category": "laptops",
+      "max_price": 100000,
+      "purpose": "design"
+    }
+  },
+  {
+    "text": "Сравни iPhone и Samsung Galaxy",
+    "expected_intent": "compare",
+    "expected_entities": [
+      "iPhone",
+      "Samsung Galaxy"
+    ],
+    "expected_filters": {
+      "category": "phones"
+    }
+  },
+  {
+    "text": "Посоветуй хороший ресторан в Москве",
+    "expected_intent": "recommend",
+    "expected_entities": [
+      "ресторан",
+      "Москве"
+    ],
+    "expected_filters": {
+      "category": "restaurants",
+      "location": "Москва"
+    }
+  },
+  {
+    "text": "Найди автомобиль до 2 миллионов рублей",
+    "expected_intent": "search",
+    "expected_entities": [
+      "автомобиль",
+      "2 миллионов"
+    ],
+    "expected_filters": {
+      "category": "cars",
+      "max_price": 2000000
+    }
+  },
+  {
+    "text": "Какой ноутбук лучше для игр?",
+    "expected_intent": "recommend",
+    "expected_entities": [
+      "ноутбук"
+    ],
+    "expected_filters": {
+      "category": "laptops",
+      "purpose": "gaming"
+    }
+  }
+]

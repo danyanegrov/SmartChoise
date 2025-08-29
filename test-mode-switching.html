@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест переключения режимов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .mode-switch {
+            border: none;
+            background: transparent;
+            color: #6B7280;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .mode-switch.active {
+            color: #378798;
+            background: rgba(55, 135, 152, 0.1);
+        }
+        .interface {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        .simple-interface {
+            background: #f0f8ff;
+        }
+        .complex-interface {
+            background: #fff0f0;
+        }
+        .hidden {
+            display: none;
+        }
+        .log {
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Тест переключения режимов SmartChoice AI</h1>
+        
+        <h2>Переключатели режимов</h2>
+        <div>
+            <button class="mode-switch active" data-mode="simple">Простой выбор</button>
+            <button class="mode-switch" data-mode="complex">Сложный анализ</button>
+            <button class="mode-switch" data-mode="random">Случайный выбор</button>
+        </div>
+        
+        <h2>Интерфейсы</h2>
+        
+        <div id="simple-interface" class="interface simple-interface">
+            <h3>Простой интерфейс</h3>
+            <p>Здесь должен быть блок ввода текста для простых вопросов.</p>
+            <input type="text" placeholder="Спросите что угодно..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+        
+        <div id="complex-interface" class="interface complex-interface hidden">
+            <h3>Сложный анализ</h3>
+            <p>Здесь должен быть интерфейс для сложного анализа с множественными критериями.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h4>Варианты выбора:</h4>
+                    <input type="text" placeholder="Вариант 1" style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;">
+                    <input type="text" placeholder="Вариант 2" style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                <div>
+                    <h4>Критерии оценки:</h4>
+                    <input type="text" placeholder="Критерий 1" style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;">
+                    <input type="text" placeholder="Критерий 2" style="width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+            </div>
+        </div>
+        
+        <h2>Лог событий</h2>
+        <div id="log" class="log"></div>
+        
+        <h2>Текущий режим</h2>
+        <p>Текущий режим: <span id="current-mode">simple</span></p>
+    </div>
+
+    <script>
+        class ModeSwitcher {
+            constructor() {
+                this.currentMode = 'simple';
+                this.setupEventListeners();
+                this.log('Инициализация завершена');
+            }
+            
+            setupEventListeners() {
+                const modeSwitchers = document.querySelectorAll('.mode-switch');
+                modeSwitchers.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const mode = btn.getAttribute('data-mode');
+                        this.switchMode(mode);
+                    });
+                });
+            }
+            
+            switchMode(mode) {
+                this.log(`Переключение на режим: ${mode}`);
+                
+                // Обновляем активный переключатель
+                const modeSwitchers = document.querySelectorAll('.mode-switch');
+                modeSwitchers.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-mode') === mode) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Переключаем интерфейсы
+                const simpleInterface = document.getElementById('simple-interface');
+                const complexInterface = document.getElementById('complex-interface');
+                
+                if (mode === 'complex') {
+                    simpleInterface.classList.add('hidden');
+                    complexInterface.classList.remove('hidden');
+                    this.log('Показан интерфейс сложного анализа');
+                } else {
+                    simpleInterface.classList.remove('hidden');
+                    complexInterface.classList.add('hidden');
+                    this.log('Показан простой интерфейс');
+                }
+                
+                this.currentMode = mode;
+                document.getElementById('current-mode').textContent = mode;
+                this.log(`Режим успешно переключен на: ${mode}`);
+            }
+            
+            log(message) {
+                const logElement = document.getElementById('log');
+                const timestamp = new Date().toLocaleTimeString();
+                logElement.innerHTML += `[${timestamp}] ${message}\n`;
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            window.modeSwitcher = new ModeSwitcher();
+        });
+    </script>
+</body>
+</html>

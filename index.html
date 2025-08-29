@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
 </head>
 <body>
-    <a href="#main" class="skip-link">Пропустить к основному контенту</a>
+    
     <div class="app-container">
         <!-- Header -->
         <header class="header">
@@ -39,133 +39,149 @@
         <div id="toast-container" class="toast-container"></div>
 
         <!-- Main Content -->
-        <main id="main" class="main-content container">
+        <main id="main" class="main-content">
             
             <!-- Home Screen -->
             <div id="home-screen" class="screen active">
-                <div class="layout-grid">
-                    <!-- Left Sidebar -->
-                    <aside class="sidebar-left">
-                        <div class="sidebar-card">
-                            <div class="modes-list" id="modes-list">
-                                <button class="mode-btn active" data-type="simple">
-                                    <span class="mode-name">Выбор (Choice)</span>
-                                </button>
-                                <button class="mode-btn active" data-type="ai">
-                                    <span class="mode-name">AI помощник</span>
-                                </button>
-                                <button class="mode-btn" data-type="analysis">
-                                    <span class="mode-name">Анализ данных</span>
-                                </button>
-                                <button class="mode-btn" data-type="complex">
-                                    <span class="mode-name">Сложный анализ</span>
-                                </button>
-                                <button class="mode-btn" data-type="random">
-                                    <span class="mode-name">Рандом</span>
-                                </button>
+                <section style="display:flex;align-items:center;justify-content:center;min-height:70vh;padding:2rem 1rem;width:100%;">
+                    <div style="max-width:900px;width:100%;text-align:center;">
+                        <h2 style="font-size:1.8rem;margin:0 0 .5rem 0;">Добро пожаловать в SmartChoice AI!</h2>
+                        <p style="color:var(--color-text-secondary);margin:0 0 1.25rem 0;">Принимайте решения уверенно. Выберите режим и опишите задачу.</p>
+                        
+                        <!-- Область чата -->
+                        <div id="chat-thread" style="max-width:1100px;margin:1.25rem auto 0 auto;display:flex;flex-direction:column;gap:0.75rem;"></div>
+                        
+                        <!-- Интерфейс сложного анализа (скрыт по умолчанию) -->
+                        <div id="complex-analysis-interface" style="max-width:1100px;margin:1.25rem auto;display:none;">
+                            <div style="background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.2);border-radius:24px;padding:2rem;box-shadow:0 8px 32px rgba(31,38,135,0.37);">
+                                <div style="text-align:center;margin-bottom:2rem;">
+                                    <h3 style="margin:0 0 1rem 0;color:#111827;font-size:1.5rem;">Сложный анализ</h3>
+                                    <p style="margin:0;color:#6B7280;">Опишите сложную задачу с множественными критериями</p>
+                                </div>
+                                
+                                <div id="options-container" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;">
+                                    <!-- Левая секция - Варианты выбора -->
+                                    <div>
+                                        <h4 style="margin:0 0 1rem 0;color:#111827;font-size:1.125rem;">Варианты выбора:</h4>
+                                        <div id="options-list" style="display:flex;flex-direction:column;gap:1rem;">
+                                            <input type="text" placeholder="Вариант 1" style="padding:0.75rem;border:2px solid rgba(55,135,152,0.3);border-radius:12px;background:rgba(255,255,255,0.15);color:#111827;outline:none;transition:border-color 0.3s;">
+                                            <input type="text" placeholder="Вариант 2" style="padding:0.75rem;border:2px solid rgba(55,135,152,0.3);border-radius:12px;background:rgba(255,255,255,0.15);color:#111827;outline:none;transition:border-color 0.3s;">
+                                            <input type="text" placeholder="Вариант 3" style="padding:0.75rem;border:2px solid rgba(55,135,152,0.3);border-radius:12px;background:rgba(255,255,255,0.15);color:#111827;outline:none;transition:border-color 0.3s;">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Правая секция - Критерии оценки -->
+                                    <div>
+                                        <h4 style="margin:0 0 1rem 0;color:#111827;font-size:1.125rem;">Критерии оценки:</h4>
+                                        <div id="criteria-list" style="display:flex;flex-direction:column;gap:1rem;">
+                                            <input type="text" placeholder="Критерий 1 (например: цена)" style="padding:0.75rem;border:2px solid rgba(55,135,152,0.3);border-radius:12px;background:rgba(255,255,255,0.15);color:#111827;outline:none;transition:border-color 0.3s;">
+                                            <input type="text" placeholder="Критерий 2 (например: качество)" style="padding:0.75rem;border:2px solid rgba(55,135,152,0.3);border-radius:12px;background:rgba(255,255,255,0.15);color:#111827;outline:none;transition:border-color 0.3s;">
+                                            <input type="text" placeholder="Критерий 3 (например: время)" style="padding:0.75rem;border:2px solid rgba(55,135,152,0.3);border-radius:12px;background:rgba(255,255,255,0.15);color:#111827;outline:none;transition:border-color 0.3s;">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align:center;margin-bottom:2rem;">
+                                    <button id="add-option-btn" style="background:transparent;border:1px solid rgba(55,135,152,0.5);color:#378798;padding:0.75rem 1.5rem;border-radius:12px;cursor:pointer;transition:all 0.3s;">+ Добавить вариант</button>
+                                </div>
+                                
+                                <!-- Нижняя панель с иконками -->
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1);">
+                                    <!-- Переключатели режимов слева -->
+                                    <div style="display:flex;gap:8px;">
+                                        <button class="mode-switch" data-mode="simple" title="Простой выбор" style="border:none;background:transparent;color:#6B7280;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="mode-switch" data-mode="complex" title="Сложный анализ" style="border:none;background:transparent;color:#6B7280;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="mode-switch" data-mode="random" title="Случайный выбор" style="border:none;background:transparent;color:#6B7280;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Иконки справа -->
+                                    <div style="display:flex;gap:12px;">
+                                        <button class="input-icon" title="Прикрепить файл" style="border:none;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.3s;">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="input-icon" title="Голосовой ввод" style="border:none;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.3s;">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M12 14c1.66 0 2.99-1.34 2.99-3S13.66 8 12 8c-1.66 0-3 1.34-3 3s1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
+                                            </svg>
+                                        </button>
+                                        <button style="border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#378798;transition:color 0.3s;">
+                                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                <path d="M13.0607 0.93934C12.4749 0.353553 11.5251 0.353553 10.9393 0.93934L1.3934 10.4853C0.807611 11.0711 0.807611 12.0208 1.3934 12.6066C1.97918 13.1924 2.92893 13.1924 3.51472 12.6066L12 4.12132L20.4853 12.6066C21.0711 13.1924 22.0208 13.1924 22.6066 12.6066C23.1924 12.0208 23.1924 11.0711 22.6066 10.4853L13.0607 0.93934ZM12 25L13.5 25L13.5 2L12 2L10.5 2L10.5 25L12 25Z" fill="#378798"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </aside>
-
-                    <!-- Center Panel -->
-                    <section class="center-panel">
-                        <div class="welcome-section">
-                            <h2>Добро пожаловать в SmartChoice AI!</h2>
-                            <p>Принимайте решения уверенно. Выберите режим и опишите задачу.</p>
-                        </div>
-
                         
-                        <div class="input-with-send">
-                            <textarea id="home-input" class="textarea" placeholder="Давай решим любой вопрос"></textarea>
-                            <button id="home-submit" class="send-btn" aria-label="Отправить">
-                                <span class="send-icon">↑</span>
+                        <div id="simple-input-container" style="position:relative;display:block;margin:0 auto;max-width:1100px;width:100%;">
+                            <!-- Переключатели режимов (слева внизу) -->
+                            <div id="mode-switchers" style="position:absolute;left:16px;bottom:16px;display:flex;gap:8px;z-index:10;">
+                                <button class="mode-switch active" data-mode="simple" title="Простой выбор" style="border:none;background:transparent;color:#378798;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                                    </svg>
+                                </button>
+                                <button class="mode-switch" data-mode="complex" title="Сложный анализ" style="border:none;background:transparent;color:#6B7280;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </button>
+                                <button class="mode-switch" data-mode="random" title="Случайный выбор" style="border:none;background:transparent;color:#6B7280;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <input id="home-input" type="text" placeholder="Спросите что угодно или упомяните пространство"
+                                   style="width:100%;border:1px solid rgba(255,255,255,0.2);border-radius:24px;background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:#111827;outline:none;box-shadow:0 8px 32px rgba(31,38,135,0.37);height:180px;font-size:1.125rem;text-align:left;padding:0.1rem 1.25rem 5rem 1.25rem;">
+                            
+                            <!-- Иконки справа (внизу) -->
+                            <div style="position:absolute;right:80px;bottom:16px;display:flex;gap:12px;z-index:10;">
+                                <button class="input-icon" title="Прикрепить файл" style="border:none;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.3s;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/>
+                                    </svg>
+                                </button>
+                                <button class="input-icon" title="Голосовой ввод" style="border:none;background:transparent;color:#6B7280;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color 0.3s;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 14c1.66 0 2.99-1.34 2.99-3S13.66 8 12 8c-1.66 0-3 1.34-3 3s1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <button id="home-submit" aria-label="Отправить"
+                                    style="position:absolute;right:12px;bottom:16px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#378798;transition:color 0.3s;">
+                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M13.0607 0.93934C12.4749 0.353553 11.5251 0.353553 10.9393 0.93934L1.3934 10.4853C0.807611 11.0711 0.807611 12.0208 1.3934 12.6066C1.97918 13.1924 2.92893 13.1924 3.51472 12.6066L12 4.12132L20.4853 12.6066C21.0711 13.1924 22.0208 13.1924 22.6066 12.6066C23.1924 12.0208 23.1924 11.0711 22.6066 10.4853L13.0607 0.93934ZM12 25L13.5 25L13.5 2L12 2L10.5 2L10.5 25L12 25Z" fill="#378798"/>
+                                </svg>
                             </button>
                         </div>
 
-                        <div class="answer-area" id="home-answer" aria-live="polite"></div>
-
-                        <div>
-                            <h3>Примеры вопросов</h3>
-                            <div class="examples" id="examples-list"></div>
-                        </div>
-                    </section>
-
-                    <!-- Right Sidebar -->
-                    <aside class="sidebar-right"></aside>
-                </div>
+                    </div>
+                </section>
             </div>
 
-            <!-- Dashboard Screen -->
-            <div id="dashboard-screen" class="screen">
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <h3>📊 Аналитика решений</h3>
-                        <canvas id="decisionsChart"></canvas>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>🎯 Эффективность</h3>
-                        <div class="metric-value">95%</div>
-                        <div class="metric-label">Успешных решений</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>⏱️ Среднее время</h3>
-                        <div class="metric-value">2.5 мин</div>
-                        <div class="metric-label">На принятие решения</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Недавние решения</h3>
-                        <div class="recent-list" id="recent-decisions"></div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Статистика</h3>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <span class="stat-value" id="total-decisions">0</span>
-                                <span class="stat-label">Решений</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value" id="accuracy">95%</span>
-                                <span class="stat-label">Точность</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Dashboard Screen removed by request -->
 
-            <!-- History Screen -->
-            <div id="history-screen" class="screen">
-                <div class="history-header">
-                    <h2>📋 История решений</h2>
-                    <button class="btn btn--secondary" onclick="clearHistory()">Очистить историю</button>
-                </div>
-                <div id="history-list" class="history-list">
-                    <!-- История будет загружена динамически -->
-                </div>
-            </div>
+            <!-- History Screen removed by request -->
 
-            <!-- Profile Screen -->
-            <div id="profile-screen" class="screen">
-                <div class="profile-section">
-                    <h2>⚙️ Настройки профиля</h2>
-                    <div class="form-group">
-                        <label>Имя</label>
-                        <input type="text" id="profile-name" value="Демо пользователь">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="profile-email" value="demo@smartchoice.ai">
-                    </div>
-                    <div class="form-group">
-                        <label>Предпочтения ИИ</label>
-                        <select id="ai-preference">
-                            <option value="balanced">Сбалансированный</option>
-                            <option value="conservative">Консервативный</option>
-                            <option value="progressive">Прогрессивный</option>
-                        </select>
-                    </div>
-                    <button class="btn btn--primary" onclick="saveProfile()">Сохранить</button>
-                </div>
-            </div>
+            
         </main>
     </div>
 
@@ -176,6 +192,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="mock-database.js"></script>
     <script src="app-new.js"></script>
     <script>
         // Initialize application
